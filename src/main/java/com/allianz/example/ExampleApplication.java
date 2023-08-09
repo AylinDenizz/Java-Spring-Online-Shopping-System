@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication
 @EnableJpaAuditing
 @Configuration
-@ComponentScan(basePackages = "com.allianz.example.mapper")
 public class ExampleApplication {
 
     public static void main(String[] args) {
