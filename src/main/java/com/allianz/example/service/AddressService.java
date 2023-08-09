@@ -22,7 +22,7 @@ public class AddressService {
     AddressMapper addressMapper;
 
 
-    public AddressDTO save(AddressRequestDTO dto) {
+    public AddressDTO create(AddressRequestDTO dto) {
 
         AddressEntity addressEntity = addressMapper.requestDTOToEntity(dto);
 
