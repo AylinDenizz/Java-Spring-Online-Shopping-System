@@ -3,17 +3,23 @@ package com.allianz.example.mapper;
 import com.allianz.example.database.entity.BillEntity;
 import com.allianz.example.model.BillDTO;
 import com.allianz.example.model.requestDTO.BillRequestDTO;
-import com.allianz.example.util.BaseDTO;
+
 import com.allianz.example.util.IBaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class BillMapper implements IBaseMapper<BillDTO, BillEntity, BillRequestDTO> {
+    private final OrderMapper orderMapper;
 
     @Autowired
-    OrderMapper orderMapper;
+    public BillMapper(OrderMapper orderMapper) {
+        this.orderMapper = orderMapper;
+    }
+
     @Override
     public BillDTO entityToDTO(BillEntity entity) {
         BillDTO billDTO = new BillDTO();
@@ -25,6 +31,8 @@ public class BillMapper implements IBaseMapper<BillDTO, BillEntity, BillRequestD
         billDTO.setUuid(entity.getUuid());
         billDTO.setCreationDate(entity.getCreationDate());
         billDTO.setUpdatedDate(entity.getUpdatedDate());
+        billDTO.setTotalSellNetPrice(entity.getTotalSellNetPrice());
+        billDTO.setTotalSellPrice(entity.getTotalSellPrice());
         billDTO.setOrder(orderMapper.entityToDTO(entity.getOrder()));
 
         return billDTO;
@@ -79,5 +87,10 @@ public class BillMapper implements IBaseMapper<BillDTO, BillEntity, BillRequestD
         billEntity.setUpdatedDate(dto.getUpdatedDate());
         billEntity.setUuid(dto.getUuid());
         return billEntity;
+    }
+
+    @Override
+    public List<BillEntity> requestDTOListTOEntityList(List<BillRequestDTO> billRequestDTOS) {
+        return null;
     }
 }

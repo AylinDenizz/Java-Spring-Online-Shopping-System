@@ -1,18 +1,17 @@
 package com.allianz.example.mapper;
 
-import com.allianz.example.database.entity.ProductEntity;
-import com.allianz.example.database.entity.SellerEntity;
+
 import com.allianz.example.database.entity.Settings;
-import com.allianz.example.model.ProductDTO;
-import com.allianz.example.model.SellerDTO;
+
 import com.allianz.example.model.SettingsDTO;
 import com.allianz.example.model.requestDTO.SettingsRequestDTO;
-import com.allianz.example.util.BaseDTO;
+
 import com.allianz.example.util.IBaseMapper;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 public class SettingsMapper implements IBaseMapper<SettingsDTO, Settings, SettingsRequestDTO> {
     @Override
     public SettingsDTO entityToDTO(Settings entity) {
@@ -65,5 +64,10 @@ public class SettingsMapper implements IBaseMapper<SettingsDTO, Settings, Settin
         settings.setKey(dto.getKey());
 
         return settings;
+    }
+
+    @Override
+    public List<Settings> requestDTOListTOEntityList(List<SettingsRequestDTO> settingsRequestDTOS) {
+        return null;
     }
 }

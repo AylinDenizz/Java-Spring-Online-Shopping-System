@@ -3,11 +3,13 @@ package com.allianz.example.mapper;
 import com.allianz.example.database.entity.CommentEntity;
 import com.allianz.example.model.CommentDTO;
 import com.allianz.example.model.requestDTO.CommentRequestDTO;
-import com.allianz.example.util.BaseDTO;
+
 import com.allianz.example.util.IBaseMapper;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class CommentMapper implements IBaseMapper<CommentDTO, CommentEntity, CommentRequestDTO> {
     @Override
     public CommentDTO entityToDTO(CommentEntity entity) {
@@ -44,6 +46,11 @@ public class CommentMapper implements IBaseMapper<CommentDTO, CommentEntity, Com
 
     @Override
     public CommentEntity requestDTOToEntity(CommentRequestDTO dto) {
+        return null;
+    }
+
+    @Override
+    public List<CommentEntity> requestDTOListTOEntityList(List<CommentRequestDTO> commentRequestDTOS) {
         return null;
     }
 }

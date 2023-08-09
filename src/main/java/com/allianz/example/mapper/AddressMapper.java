@@ -6,15 +6,17 @@ import com.allianz.example.model.requestDTO.AddressRequestDTO;
 import com.allianz.example.util.IBaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class AddressMapper implements IBaseMapper<AddressDTO, AddressEntity, AddressRequestDTO> {
+    private final PersonMapper personMapper;
 
     @Autowired
-    PersonMapper personMapper;
+    public AddressMapper(PersonMapper personMapper) {
+        this.personMapper = personMapper;
+    }
 
     @Override
     public AddressDTO entityToDTO(AddressEntity entity) {
@@ -81,7 +83,10 @@ public class AddressMapper implements IBaseMapper<AddressDTO, AddressEntity, Add
         return entity;
     }
 
-
+    @Override
+    public List<AddressEntity> requestDTOListTOEntityList(List<AddressRequestDTO> addressRequestDTOS) {
+        return null;
+    }
 
 
 }

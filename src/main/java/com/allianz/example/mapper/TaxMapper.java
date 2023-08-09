@@ -1,18 +1,17 @@
 package com.allianz.example.mapper;
 
-import com.allianz.example.database.entity.ProductEntity;
-import com.allianz.example.database.entity.Settings;
+
 import com.allianz.example.database.entity.TaxEntity;
-import com.allianz.example.model.ProductDTO;
-import com.allianz.example.model.SettingsDTO;
+
 import com.allianz.example.model.TaxDTO;
 import com.allianz.example.model.requestDTO.TaxRequestDTO;
-import com.allianz.example.util.BaseDTO;
+
 import com.allianz.example.util.IBaseMapper;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 public class TaxMapper implements IBaseMapper<TaxDTO, TaxEntity, TaxRequestDTO> {
     @Override
     public TaxDTO entityToDTO(TaxEntity entity) {
@@ -66,5 +65,10 @@ public class TaxMapper implements IBaseMapper<TaxDTO, TaxEntity, TaxRequestDTO> 
         TaxEntity entity = new TaxEntity();
         entity.setName(dto.getName());
         return entity;
+    }
+
+    @Override
+    public List<TaxEntity> requestDTOListTOEntityList(List<TaxRequestDTO> taxRequestDTOS) {
+        return null;
     }
 }

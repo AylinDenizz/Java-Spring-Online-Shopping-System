@@ -1,18 +1,19 @@
 package com.allianz.example.mapper;
 
-import com.allianz.example.database.entity.OrderEntity;
 import com.allianz.example.database.entity.PersonEntity;
 import com.allianz.example.model.PersonDTO;
 import com.allianz.example.model.requestDTO.PersonRequestDTO;
 import com.allianz.example.util.IBaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 public class PersonMapper implements IBaseMapper<PersonDTO, PersonEntity, PersonRequestDTO> {
-
     @Autowired
+    @Lazy
     AddressMapper addressMapper;
 
     @Override
@@ -52,7 +53,11 @@ public class PersonMapper implements IBaseMapper<PersonDTO, PersonEntity, Person
 
     @Override
     public List<PersonDTO> entityListToDTOList(List<PersonEntity> personEntities) {
-        return null;
+        List<PersonDTO> PersonDTOS = new ArrayList<>();
+        for (PersonEntity person: personEntities) {
+            PersonDTOS.add(entityToDTO(person));
+        }
+        return PersonDTOS;
     }
 
     @Override
@@ -76,6 +81,14 @@ public class PersonMapper implements IBaseMapper<PersonDTO, PersonEntity, Person
         person.setName(dto.getName());
         person.setSurname(dto.getSurname());
         person.setTc(dto.getTc());
+        person.setBirthYear(dto.getBirthYear());
+        person.setAddressList(addressMapper.requestDTOListTOEntityList(dto.getAddressList()));
+
         return person;
+    }
+
+    @Override
+    public List<PersonEntity> requestDTOListTOEntityList(List<PersonRequestDTO> personRequestDTOS) {
+        return null;
     }
 }

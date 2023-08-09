@@ -5,18 +5,22 @@ import com.allianz.example.model.OrderDTO;
 import com.allianz.example.model.requestDTO.OrderRequestDTO;
 import com.allianz.example.util.IBaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.jaxb.SpringDataJaxb;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class OrderMapper implements IBaseMapper<OrderDTO, OrderEntity, OrderRequestDTO> {
 
-    @Autowired
-    CustomerMapper customerMapper;
+    private final CustomerMapper customerMapper;
+    private final OrderItemMapper orderItemMapper;
 
     @Autowired
-    OrderItemMapper orderItemMapper;
+    public OrderMapper(CustomerMapper customerMapper, OrderItemMapper orderItemMapper) {
+        this.customerMapper = customerMapper;
+        this.orderItemMapper = orderItemMapper;
+    }
 
     @Override
     public OrderDTO entityToDTO(OrderEntity entity) {
@@ -55,10 +59,11 @@ public class OrderMapper implements IBaseMapper<OrderDTO, OrderEntity, OrderRequ
         return order;
 
     }
+
     @Override
     public List<OrderDTO> entityListToDTOList(List<OrderEntity> orderEntities) {
         List<OrderDTO> orderDTOS = new ArrayList<>();
-        for (OrderEntity orderEntity: orderEntities) {
+        for (OrderEntity orderEntity : orderEntities) {
             orderDTOS.add(entityToDTO(orderEntity));
         }
         return orderDTOS;
@@ -67,7 +72,7 @@ public class OrderMapper implements IBaseMapper<OrderDTO, OrderEntity, OrderRequ
     @Override
     public List<OrderEntity> dtoListTOEntityList(List<OrderDTO> orderDTOS) {
         List<OrderEntity> orderEntities = new ArrayList<>();
-        for (OrderDTO order: orderDTOS) {
+        for (OrderDTO order : orderDTOS) {
             orderEntities.add(dtoToEntity(order));
         }
         return orderEntities;
@@ -76,11 +81,27 @@ public class OrderMapper implements IBaseMapper<OrderDTO, OrderEntity, OrderRequ
 
     @Override
     public OrderEntity requestDTOToEntity(OrderRequestDTO dto) {
-    OrderEntity order = new OrderEntity();
-    order.setId(dto.getId());
-    order.setCreationDate(dto.getCreationDate());
-    order.setUuid(dto.getUuid());
-    order.setUpdatedDate(dto.getUpdatedDate());
-    return order;
+        OrderEntity order = new OrderEntity();
+        order.setId(dto.getId());
+        order.setCreationDate(dto.getCreationDate());
+        order.setUuid(dto.getUuid());
+        order.setUpdatedDate(dto.getUpdatedDate());
+        order.setOrderStatus(dto.getOrderStatus());
+        order.setCustomer(customerMapper.requestDTOToEntity(dto.getCustomer()));
+        order.setOrderItemList(orderItemMapper.requestDTOListTOEntityList(dto.getOrderItemList()));
+
+        return order;
     }
+
+    @Override
+    public List<OrderEntity> requestDTOListTOEntityList(List<OrderRequestDTO> orderRequestDTOS) {
+        List<OrderEntity> orderEntities = new ArrayList<>();
+        for (OrderRequestDTO orderRequest : orderRequestDTOS) {
+            orderEntities.add(requestDTOToEntity(orderRequest));
+        }
+        return orderEntities;
+
+    }
+
+
 }

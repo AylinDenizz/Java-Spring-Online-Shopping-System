@@ -1,11 +1,7 @@
 package com.allianz.example.model;
 
-import com.allianz.example.database.entity.CategoryEntity;
-import com.allianz.example.database.entity.TaxEntity;
 import com.allianz.example.model.enums.ColorEnum;
 import com.allianz.example.util.BaseDTO;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;

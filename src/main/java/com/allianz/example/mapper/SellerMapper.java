@@ -1,16 +1,17 @@
 package com.allianz.example.mapper;
 
-import com.allianz.example.database.entity.ProductEntity;
+
 import com.allianz.example.database.entity.SellerEntity;
-import com.allianz.example.model.ProductDTO;
+
 import com.allianz.example.model.SellerDTO;
 import com.allianz.example.model.requestDTO.SellerRequestDTO;
-import com.allianz.example.util.BaseDTO;
+
 import com.allianz.example.util.IBaseMapper;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 public class SellerMapper implements IBaseMapper<SellerDTO, SellerEntity, SellerRequestDTO> {
     @Override
     public SellerDTO entityToDTO(SellerEntity entity) {
@@ -76,5 +77,10 @@ public class SellerMapper implements IBaseMapper<SellerDTO, SellerEntity, Seller
         entity.setCreationDate(dto.getCreationDate());
         entity.setUpdatedDate(dto.getUpdatedDate());
         return entity;
+    }
+
+    @Override
+    public List<SellerEntity> requestDTOListTOEntityList(List<SellerRequestDTO> sellerRequestDTOS) {
+        return null;
     }
 }

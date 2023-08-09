@@ -1,32 +1,39 @@
 package com.allianz.example.mapper;
 
-import com.allianz.example.database.entity.CategoryEntity;
 import com.allianz.example.database.entity.CustomerEntity;
 import com.allianz.example.model.CustomerDTO;
 import com.allianz.example.model.requestDTO.CustomerRequestDTO;
-import com.allianz.example.util.BaseDTO;
 import com.allianz.example.util.IBaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class CustomerMapper implements IBaseMapper<CustomerDTO, CustomerEntity, CustomerRequestDTO> {
 
-    @Autowired
-    PersonMapper personMapper;
+    private final PersonMapper personMapper;
+    private final OrderMapper orderMapper;
 
     @Autowired
-    OrderMapper orderMapper;
+    @Lazy
+    public CustomerMapper(PersonMapper personMapper, OrderMapper orderMapper) {
+        this.personMapper = personMapper;
+        this.orderMapper = orderMapper;
+    }
+
+
     @Override
     public CustomerDTO entityToDTO(CustomerEntity entity) {
         CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setUpdatedDate(entity.getUpdatedDate());
         customerDTO.setId(entity.getId());
         customerDTO.setCompanyName(entity.getCompanyName());
         customerDTO.setCreationDate(entity.getCreationDate());
         customerDTO.setUuid(entity.getUuid());
         customerDTO.setIsCorporate(entity.getIsCorporate());
+        customerDTO.setUpdatedDate(entity.getUpdatedDate());
         customerDTO.setTaxNumber(entity.getTaxNumber());
         customerDTO.setTaxOffice(entity.getTaxOffice());
         customerDTO.setPerson(personMapper.entityToDTO(entity.getPerson()));
@@ -57,7 +64,7 @@ public class CustomerMapper implements IBaseMapper<CustomerDTO, CustomerEntity, 
 
 
         List<CustomerDTO> customerDTOS = new ArrayList<>();
-        for (CustomerEntity customer: customerEntities) {
+        for (CustomerEntity customer : customerEntities) {
             customerDTOS.add(entityToDTO(customer));
         }
         return customerDTOS;
@@ -65,8 +72,8 @@ public class CustomerMapper implements IBaseMapper<CustomerDTO, CustomerEntity, 
 
     @Override
     public List<CustomerEntity> dtoListTOEntityList(List<CustomerDTO> customerDTOS) {
-        List<CustomerEntity> customerEntities =new ArrayList<>();
-        for (CustomerDTO customerDTO: customerDTOS){
+        List<CustomerEntity> customerEntities = new ArrayList<>();
+        for (CustomerDTO customerDTO : customerDTOS) {
             customerEntities.add(dtoToEntity(customerDTO));
         }
         return customerEntities;
@@ -75,12 +82,22 @@ public class CustomerMapper implements IBaseMapper<CustomerDTO, CustomerEntity, 
     @Override
     public CustomerEntity requestDTOToEntity(CustomerRequestDTO dto) {
         CustomerEntity customer = new CustomerEntity();
+        customer.setId(dto.getId());
         customer.setCompanyName(dto.getCompanyName());
         customer.setCreationDate(dto.getCreationDate());
-        customer.setId(dto.getId());
         customer.setUuid(dto.getUuid());
+        customer.setIsCorporate(dto.getIsCorporate());
         customer.setUpdatedDate(dto.getUpdatedDate());
+        customer.setTaxNumber(dto.getTaxNumber());
+        customer.setTaxOffice(dto.getTaxOffice());
+        customer.setPerson(personMapper.requestDTOToEntity(dto.getPerson()));
+        customer.setOrderList(orderMapper.requestDTOListTOEntityList(dto.getOrderList()));
 
         return customer;
+    }
+
+    @Override
+    public List<CustomerEntity> requestDTOListTOEntityList(List<CustomerRequestDTO> customerRequestDTOS) {
+        return null;
     }
 }

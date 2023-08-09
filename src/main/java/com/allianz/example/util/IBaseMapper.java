@@ -1,5 +1,9 @@
 package com.allianz.example.util;
 
+import com.allianz.example.database.entity.AddressEntity;
+import com.allianz.example.database.entity.PersonEntity;
+import com.allianz.example.model.AddressDTO;
+import com.allianz.example.model.PersonDTO;
 import com.allianz.example.util.dbutil.BaseEntity;
 
 import java.util.List;
@@ -15,6 +19,8 @@ public interface IBaseMapper<DTO extends BaseDTO, Entity extends BaseEntity, Req
     List<Entity> dtoListTOEntityList(List<DTO> dtoList);
 
     Entity requestDTOToEntity(RequestDTO dto);
+
+    List<Entity> requestDTOListTOEntityList(List<RequestDTO> dtoList);
 
 
 }

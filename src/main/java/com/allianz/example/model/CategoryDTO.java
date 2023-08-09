@@ -1,8 +1,6 @@
 package com.allianz.example.model;
 
-import com.allianz.example.database.entity.ProductEntity;
 import com.allianz.example.util.BaseDTO;
-import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.HashSet;
