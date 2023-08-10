@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 @Service
 
-public class CommentService extends BaseDTO {
+public class CommentService {
     @Autowired
     CommentEntityRepository commentEntityRepository;
 

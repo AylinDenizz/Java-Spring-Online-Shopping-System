@@ -6,13 +6,14 @@ import com.allianz.example.database.entity.TaxEntity;
 import com.allianz.example.model.TaxDTO;
 import com.allianz.example.model.requestDTO.TaxRequestDTO;
 
-import com.allianz.example.util.IBaseMapper;
+import com.allianz.example.util.BaseMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Component
-public class TaxMapper implements IBaseMapper<TaxDTO, TaxEntity, TaxRequestDTO> {
+public class TaxMapper implements BaseMapper<TaxDTO, TaxEntity, TaxRequestDTO> {
     @Override
     public TaxDTO entityToDTO(TaxEntity entity) {
 
@@ -24,6 +25,7 @@ public class TaxMapper implements IBaseMapper<TaxDTO, TaxEntity, TaxRequestDTO> 
         taxDTO.setCode(entity.getCode());
         taxDTO.setName(entity.getName());
         taxDTO.setRate(entity.getRate());
+
 
         return taxDTO;
     }
@@ -45,7 +47,7 @@ public class TaxMapper implements IBaseMapper<TaxDTO, TaxEntity, TaxRequestDTO> 
     @Override
     public List<TaxDTO> entityListToDTOList(List<TaxEntity> taxEntities) {
         List<TaxDTO> dtos = new ArrayList<>();
-        for (TaxEntity entity: taxEntities) {
+        for (TaxEntity entity : taxEntities) {
             dtos.add(entityToDTO(entity));
         }
         return dtos;
@@ -54,7 +56,7 @@ public class TaxMapper implements IBaseMapper<TaxDTO, TaxEntity, TaxRequestDTO> 
     @Override
     public List<TaxEntity> dtoListTOEntityList(List<TaxDTO> taxDTOS) {
         List<TaxEntity> entities = new ArrayList<>();
-        for (TaxDTO dto: taxDTOS) {
+        for (TaxDTO dto : taxDTOS) {
             entities.add(dtoToEntity(dto));
         }
         return entities;
@@ -64,6 +66,17 @@ public class TaxMapper implements IBaseMapper<TaxDTO, TaxEntity, TaxRequestDTO> 
     public TaxEntity requestDTOToEntity(TaxRequestDTO dto) {
         TaxEntity entity = new TaxEntity();
         entity.setName(dto.getName());
+        entity.setCode(dto.getCode());
+        entity.setRate(dto.getRate());
+
+        return entity;
+    }
+
+    @Override
+    public TaxEntity requestDTOToExistEntity(TaxRequestDTO dto, TaxEntity entity) {
+        entity.setCode(dto.getCode());
+        entity.setName(dto.getName());
+        entity.setRate(dto.getRate());
         return entity;
     }
 

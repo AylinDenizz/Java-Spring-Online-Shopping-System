@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 @Service
 
-public class ProductService extends BaseDTO {
+public class ProductService {
     @Autowired
     ProductMapper productMapper;
 

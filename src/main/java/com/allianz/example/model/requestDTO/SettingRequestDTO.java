@@ -1,11 +1,10 @@
-package com.allianz.example.model;
+package com.allianz.example.model.requestDTO;
 
 import com.allianz.example.util.BaseDTO;
-import jakarta.persistence.Column;
 import lombok.Data;
 
 @Data
-public class SettingsDTO extends BaseDTO {
+public class SettingRequestDTO extends BaseDTO {
     private String key;
     private String value;
 }

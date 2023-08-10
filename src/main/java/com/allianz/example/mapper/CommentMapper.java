@@ -4,13 +4,13 @@ import com.allianz.example.database.entity.CommentEntity;
 import com.allianz.example.model.CommentDTO;
 import com.allianz.example.model.requestDTO.CommentRequestDTO;
 
-import com.allianz.example.util.IBaseMapper;
+import com.allianz.example.util.BaseMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class CommentMapper implements IBaseMapper<CommentDTO, CommentEntity, CommentRequestDTO> {
+public class CommentMapper implements BaseMapper<CommentDTO, CommentEntity, CommentRequestDTO> {
     @Override
     public CommentDTO entityToDTO(CommentEntity entity) {
         CommentDTO commentDTO = new CommentDTO();
@@ -32,6 +32,11 @@ public class CommentMapper implements IBaseMapper<CommentDTO, CommentEntity, Com
         comment.setUpdatedDate(dto.getUpdatedDate());
         return comment;
 
+    }
+
+    @Override
+    public CommentEntity requestDTOToExistEntity(CommentRequestDTO dto, CommentEntity entity) {
+        return null;
     }
 
     @Override

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 @Service
-public class CategoryService extends BaseDTO {
+public class CategoryService{
     @Autowired
     CategoryMapper categoryMapper;
 

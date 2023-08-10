@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 @Service
 
-public class OrderItemService extends BaseDTO {
+public class OrderItemService  {
     @Autowired
     OrderItemEntityRepository orderItemEntityRepository;
 

@@ -3,14 +3,14 @@ package com.allianz.example.mapper;
 import com.allianz.example.database.entity.AddressEntity;
 import com.allianz.example.model.AddressDTO;
 import com.allianz.example.model.requestDTO.AddressRequestDTO;
-import com.allianz.example.util.IBaseMapper;
+import com.allianz.example.util.BaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class AddressMapper implements IBaseMapper<AddressDTO, AddressEntity, AddressRequestDTO> {
+public class AddressMapper implements BaseMapper<AddressDTO, AddressEntity, AddressRequestDTO> {
     private final PersonMapper personMapper;
 
     @Autowired
@@ -88,5 +88,8 @@ public class AddressMapper implements IBaseMapper<AddressDTO, AddressEntity, Add
         return null;
     }
 
-
+    @Override
+    public AddressEntity requestDTOToExistEntity(AddressRequestDTO dto, AddressEntity entity) {
+        return null;
+    }
 }

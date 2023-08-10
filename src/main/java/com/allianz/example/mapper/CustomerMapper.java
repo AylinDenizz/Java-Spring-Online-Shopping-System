@@ -3,7 +3,7 @@ package com.allianz.example.mapper;
 import com.allianz.example.database.entity.CustomerEntity;
 import com.allianz.example.model.CustomerDTO;
 import com.allianz.example.model.requestDTO.CustomerRequestDTO;
-import com.allianz.example.util.IBaseMapper;
+import com.allianz.example.util.BaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class CustomerMapper implements IBaseMapper<CustomerDTO, CustomerEntity, CustomerRequestDTO> {
+public class CustomerMapper implements BaseMapper<CustomerDTO, CustomerEntity, CustomerRequestDTO> {
 
     private final PersonMapper personMapper;
     private final OrderMapper orderMapper;
@@ -40,6 +40,11 @@ public class CustomerMapper implements IBaseMapper<CustomerDTO, CustomerEntity, 
         customerDTO.setOrderList(orderMapper.entityListToDTOList(entity.getOrderList()));
 
         return customerDTO;
+    }
+
+    @Override
+    public CustomerEntity requestDTOToExistEntity(CustomerRequestDTO dto, CustomerEntity entity) {
+        return null;
     }
 
     @Override

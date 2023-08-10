@@ -3,7 +3,7 @@ package com.allianz.example.mapper;
 import com.allianz.example.database.entity.PersonEntity;
 import com.allianz.example.model.PersonDTO;
 import com.allianz.example.model.requestDTO.PersonRequestDTO;
-import com.allianz.example.util.IBaseMapper;
+import com.allianz.example.util.BaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 @Component
-public class PersonMapper implements IBaseMapper<PersonDTO, PersonEntity, PersonRequestDTO> {
+public class PersonMapper implements BaseMapper<PersonDTO, PersonEntity, PersonRequestDTO> {
     @Autowired
     @Lazy
     AddressMapper addressMapper;
@@ -85,6 +85,11 @@ public class PersonMapper implements IBaseMapper<PersonDTO, PersonEntity, Person
         person.setAddressList(addressMapper.requestDTOListTOEntityList(dto.getAddressList()));
 
         return person;
+    }
+
+    @Override
+    public PersonEntity requestDTOToExistEntity(PersonRequestDTO dto, PersonEntity entity) {
+        return null;
     }
 
     @Override

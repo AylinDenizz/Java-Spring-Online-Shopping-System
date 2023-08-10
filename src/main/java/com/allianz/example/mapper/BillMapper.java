@@ -4,7 +4,7 @@ import com.allianz.example.database.entity.BillEntity;
 import com.allianz.example.model.BillDTO;
 import com.allianz.example.model.requestDTO.BillRequestDTO;
 
-import com.allianz.example.util.IBaseMapper;
+import com.allianz.example.util.BaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class BillMapper implements IBaseMapper<BillDTO, BillEntity, BillRequestDTO> {
+public class BillMapper implements BaseMapper<BillDTO, BillEntity, BillRequestDTO> {
     private final OrderMapper orderMapper;
 
     @Autowired
@@ -91,6 +91,11 @@ public class BillMapper implements IBaseMapper<BillDTO, BillEntity, BillRequestD
 
     @Override
     public List<BillEntity> requestDTOListTOEntityList(List<BillRequestDTO> billRequestDTOS) {
+        return null;
+    }
+
+    @Override
+    public BillEntity requestDTOToExistEntity(BillRequestDTO dto, BillEntity entity) {
         return null;
     }
 }

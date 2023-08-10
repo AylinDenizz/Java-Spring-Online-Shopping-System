@@ -7,7 +7,7 @@ import com.allianz.example.database.entity.ProductEntity;
 import com.allianz.example.model.CategoryDTO;
 import com.allianz.example.model.ProductDTO;
 import com.allianz.example.model.requestDTO.ProductRequestDTO;
-import com.allianz.example.util.IBaseMapper;
+import com.allianz.example.util.BaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 @Component
-public class ProductMapper implements IBaseMapper<ProductDTO, ProductEntity, ProductRequestDTO> {
+public class ProductMapper implements BaseMapper<ProductDTO, ProductEntity, ProductRequestDTO> {
 
     private final TaxMapper taxMapper;
     private final CategoryMapper categoryMapper;
@@ -115,6 +115,11 @@ public class ProductMapper implements IBaseMapper<ProductDTO, ProductEntity, Pro
         entity.setCategoryList(categoryDTOS);
 
         return entity;
+    }
+
+    @Override
+    public ProductEntity requestDTOToExistEntity(ProductRequestDTO dto, ProductEntity entity) {
+        return null;
     }
 
     @Override

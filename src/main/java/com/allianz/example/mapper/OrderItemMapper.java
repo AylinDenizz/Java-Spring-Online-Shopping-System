@@ -4,9 +4,8 @@ import com.allianz.example.database.entity.OrderItemEntity;
 import com.allianz.example.model.OrderItemDTO;
 
 import com.allianz.example.model.requestDTO.OrderItemRequestDTO;
-import com.allianz.example.model.requestDTO.OrderRequestDTO;
 
-import com.allianz.example.util.IBaseMapper;
+import com.allianz.example.util.BaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class OrderItemMapper implements IBaseMapper<OrderItemDTO, OrderItemEntity, OrderItemRequestDTO> {
+public class OrderItemMapper implements BaseMapper<OrderItemDTO, OrderItemEntity, OrderItemRequestDTO> {
 
     private final ProductMapper productMapper;
 
@@ -68,6 +67,11 @@ public class OrderItemMapper implements IBaseMapper<OrderItemDTO, OrderItemEntit
             orderItem.add(dtoToEntity(orderItemDTO));
         }
         return orderItem;
+    }
+
+    @Override
+    public OrderItemEntity requestDTOToExistEntity(OrderItemRequestDTO dto, OrderItemEntity entity) {
+        return null;
     }
 
     @Override

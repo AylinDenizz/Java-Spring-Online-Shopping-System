@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 @Service
-public class BillService extends BaseDTO {
+public class BillService {
     @Autowired
     BillEntityRepository billEntityRepository;
 

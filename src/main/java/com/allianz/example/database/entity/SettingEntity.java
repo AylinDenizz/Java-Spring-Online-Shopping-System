@@ -16,7 +16,7 @@ import lombok.Data;
         )
 )
 @Data
-public class Settings extends BaseEntity {
+public class SettingEntity extends BaseEntity {
     @Column
     private String key;
 
