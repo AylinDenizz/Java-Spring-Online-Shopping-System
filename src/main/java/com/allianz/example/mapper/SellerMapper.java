@@ -70,23 +70,31 @@ public class SellerMapper implements BaseMapper<SellerDTO, SellerEntity, SellerR
     public SellerEntity requestDTOToEntity(SellerRequestDTO dto) {
 
         SellerEntity entity = new SellerEntity();
-        entity.setSurname(dto.getSurname());
-        entity.setName(dto.getName());
-        entity.setId(dto.getId());
         entity.setUuid(dto.getUuid());
         entity.setCreationDate(dto.getCreationDate());
+        entity.setId(dto.getId());
         entity.setUpdatedDate(dto.getUpdatedDate());
+        entity.setEmail(dto.getEmail());
+        entity.setTc(dto.getTc());
+        entity.setName(dto.getName());
+        entity.setShopName(dto.getShopName());
+        entity.setTaxNumber(dto.getTaxNumber());
+        entity.setTaxOffice(dto.getTaxOffice());
         return entity;
     }
 
     @Override
     public SellerEntity requestDTOToExistEntity(SellerRequestDTO dto, SellerEntity entity) {
-        entity.setTaxNumber(dto.getTaxNumber());
-        entity.setEmail(dto.getEmail());
-        entity.setName(dto.getName());
-        entity.setTc(dto.getTc());
         entity.setUuid(dto.getUuid());
-        entity.setSurname(dto.getSurname());
+        entity.setCreationDate(dto.getCreationDate());
+        entity.setId(dto.getId());
+        entity.setUpdatedDate(dto.getUpdatedDate());
+        entity.setEmail(dto.getEmail());
+        entity.setTc(dto.getTc());
+        entity.setName(dto.getName());
+        entity.setShopName(dto.getShopName());
+        entity.setTaxNumber(dto.getTaxNumber());
+        entity.setTaxOffice(dto.getTaxOffice());
 
         return entity;
     }

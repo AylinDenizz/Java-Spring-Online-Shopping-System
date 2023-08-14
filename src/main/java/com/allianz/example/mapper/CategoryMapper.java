@@ -48,7 +48,6 @@ public class CategoryMapper implements BaseMapper<CategoryDTO, CategoryEntity, C
     public CategoryEntity dtoToEntity(CategoryDTO dto) {
 
         CategoryEntity categoryEntity = new CategoryEntity();
-        categoryEntity.setUuid(dto.getUuid());
         categoryEntity.setId(dto.getId());
         categoryEntity.setUpdatedDate(dto.getUpdatedDate());
         categoryEntity.setCreationDate(dto.getCreationDate());
@@ -85,11 +84,12 @@ public class CategoryMapper implements BaseMapper<CategoryDTO, CategoryEntity, C
     @Override
     public CategoryEntity requestDTOToEntity(CategoryRequestDTO dto) {
         CategoryEntity categoryEntity = new CategoryEntity();
-        categoryEntity.setName(categoryEntity.getName());
-        categoryEntity.setUuid(categoryEntity.getUuid());
-        categoryEntity.setUpdatedDate(categoryEntity.getUpdatedDate());
-        categoryEntity.setCreationDate(categoryEntity.getCreationDate());
-        categoryEntity.setId(categoryEntity.getId());
+        categoryEntity.setId(dto.getId());
+        categoryEntity.setUpdatedDate(dto.getUpdatedDate());
+        categoryEntity.setCreationDate(dto.getCreationDate());
+        categoryEntity.setName(dto.getName());
+        categoryEntity.setUuid(dto.getUuid());
+
 
         Set<ProductEntity> productDTOS = new HashSet<>(productMapper.requestDTOListTOEntityList(new ArrayList<>(dto.getProductList())));
         categoryEntity.setProductList(productDTOS);

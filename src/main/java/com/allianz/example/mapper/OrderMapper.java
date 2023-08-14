@@ -82,14 +82,16 @@ public class OrderMapper implements BaseMapper<OrderDTO, OrderEntity, OrderReque
     @Override
     public OrderEntity requestDTOToEntity(OrderRequestDTO dto) {
         OrderEntity order = new OrderEntity();
+        order.setOrderStatus(dto.getOrderStatus());
+        order.setId(dto.getId());
+        order.setTotalSellPrice(dto.getTotalSellPrice());
+        order.setUuid(dto.getUuid());
         order.setId(dto.getId());
         order.setCreationDate(dto.getCreationDate());
-        order.setUuid(dto.getUuid());
         order.setUpdatedDate(dto.getUpdatedDate());
         order.setOrderStatus(dto.getOrderStatus());
         order.setCustomer(customerMapper.requestDTOToEntity(dto.getCustomer()));
         order.setOrderItemList(orderItemMapper.requestDTOListTOEntityList(dto.getOrderItemList()));
-
         return order;
     }
 

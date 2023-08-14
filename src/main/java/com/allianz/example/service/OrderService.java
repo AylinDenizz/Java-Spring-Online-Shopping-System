@@ -4,7 +4,8 @@ import com.allianz.example.database.entity.OrderEntity;
 import com.allianz.example.database.repository.OrderEntityRepository;
 import com.allianz.example.mapper.OrderMapper;
 import com.allianz.example.model.OrderDTO;
-import com.allianz.example.util.BaseDTO;
+import com.allianz.example.model.requestDTO.OrderRequestDTO;
+import com.allianz.example.util.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 @Service
 
-public class OrderService {
+public class OrderService extends BaseService<OrderDTO, OrderEntity, OrderRequestDTO, OrderEntityRepository, OrderMapper> {
 
     @Autowired
     OrderMapper orderMapper;
@@ -20,19 +21,14 @@ public class OrderService {
     @Autowired
     OrderEntityRepository orderEntityRepository;
 
-    public OrderDTO create(OrderDTO orderDTO) {
-        OrderEntity order = orderMapper.dtoToEntity(orderDTO);
-        orderEntityRepository.save(order);
-        return orderMapper.entityToDTO(order);
+    @Override
+    protected OrderMapper getMapper() {
+        return orderMapper;
     }
 
-    public List<OrderDTO> getAll() {
-        List<OrderEntity> orderEntities = orderEntityRepository.findAll();
-        return orderMapper.entityListToDTOList(orderEntities);
+    @Override
+    protected OrderEntityRepository getRepository() {
+        return orderEntityRepository;
     }
 
-    public OrderDTO getByUUID(UUID uuid) {
-        OrderDTO orderDTO = orderMapper.entityToDTO(orderEntityRepository.findByUuid(uuid).get());
-        return orderDTO;
-    }
 }

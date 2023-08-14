@@ -1,9 +1,10 @@
 package com.allianz.example.util;
 
 import com.allianz.example.util.dbutil.BaseEntity;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-
+@Component
 public interface BaseMapper<DTO extends BaseDTO, Entity extends BaseEntity, RequestDTO extends BaseDTO> {
 
     DTO entityToDTO(Entity entity);

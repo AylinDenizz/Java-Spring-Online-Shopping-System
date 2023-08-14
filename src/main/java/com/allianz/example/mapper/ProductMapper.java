@@ -96,10 +96,6 @@ public class ProductMapper implements BaseMapper<ProductDTO, ProductEntity, Prod
     public ProductEntity requestDTOToEntity(ProductRequestDTO dto) {
 
         ProductEntity entity = new ProductEntity();
-        entity.setId(dto.getId());
-        entity.setUuid(dto.getUuid());
-        entity.setCreationDate(dto.getCreationDate());
-        entity.setUpdatedDate(dto.getUpdatedDate());
         entity.setUuid(dto.getUuid());
         entity.setCreationDate(dto.getCreationDate());
         entity.setId(dto.getId());

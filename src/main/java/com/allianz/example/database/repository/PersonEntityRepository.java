@@ -1,6 +1,8 @@
 package com.allianz.example.database.repository;
 
 import com.allianz.example.database.entity.PersonEntity;
+import com.allianz.example.database.entity.ProductEntity;
+import com.allianz.example.util.BaseRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.stereotype.Repository;
@@ -8,6 +10,5 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.UUID;
 @Repository
-public interface PersonEntityRepository extends JpaRepository<PersonEntity, Long> {
-    Optional<PersonEntity> findByUuid(UUID uuid);
+public interface PersonEntityRepository extends BaseRepository<PersonEntity> {
 }

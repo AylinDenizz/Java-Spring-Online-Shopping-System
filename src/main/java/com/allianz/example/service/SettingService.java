@@ -1,6 +1,7 @@
 package com.allianz.example.service;
 
 import com.allianz.example.database.entity.SettingEntity;
+import com.allianz.example.database.repository.SellerEntityRepository;
 import com.allianz.example.database.repository.SettingEntityRepository;
 import com.allianz.example.mapper.SettingMapper;
 import com.allianz.example.model.SettingDTO;
@@ -16,7 +17,7 @@ import java.util.UUID;
 
 @Service
 @RestController
-public class SettingService extends BaseService<SettingDTO, SettingEntity, SettingRequestDTO> {
+public class SettingService extends BaseService<SettingDTO, SettingEntity, SettingRequestDTO, SettingEntityRepository, SettingMapper> {
 
     @Autowired
     SettingEntityRepository settingEntityRepository;
@@ -24,11 +25,23 @@ public class SettingService extends BaseService<SettingDTO, SettingEntity, Setti
     @Autowired
     SettingMapper settingMapper;
 
+
+
     public SettingDTO create(SettingRequestDTO requestDTO) {
 
         SettingEntity settingEntity = settingMapper.requestDTOToEntity(requestDTO);
         settingEntityRepository.save(settingEntity);
         return settingMapper.entityToDTO(settingEntity);
+    }
+
+    @Override
+    protected SettingMapper getMapper() {
+        return settingMapper;
+    }
+
+    @Override
+    protected SettingEntityRepository getRepository() {
+        return settingEntityRepository;
     }
 
     public List<SettingDTO> getAll() {

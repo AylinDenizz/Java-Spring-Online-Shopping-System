@@ -12,5 +12,5 @@ public class PersonRequestDTO extends BaseDTO {
     private String surname;
     private int birthYear;
     private String tc;
-    private List<AddressDTO> addressList;
+    private List<AddressRequestDTO> addressList;
 }

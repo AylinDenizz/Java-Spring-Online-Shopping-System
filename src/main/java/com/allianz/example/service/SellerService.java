@@ -13,11 +13,22 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class SellerService extends BaseService<SellerDTO, SellerEntity, SellerRequestDTO> {
+public class SellerService extends BaseService<SellerDTO, SellerEntity, SellerRequestDTO, SellerEntityRepository, SellerMapper> {
     @Autowired
     SellerEntityRepository sellerRepository;
     @Autowired
     SellerMapper sellerMapper;
+
+    @Override
+    protected SellerMapper getMapper() {
+        return sellerMapper;
+    }
+
+    @Override
+    protected SellerEntityRepository getRepository() {
+        return sellerRepository;
+    }
+
 
     @Override
     public SellerDTO save(SellerRequestDTO sellerRequestDTO) {

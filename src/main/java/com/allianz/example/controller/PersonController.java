@@ -1,9 +1,19 @@
 package com.allianz.example.controller;
 
 import com.allianz.example.database.entity.PersonEntity;
+import com.allianz.example.database.entity.TaxEntity;
+import com.allianz.example.database.repository.PersonEntityRepository;
+import com.allianz.example.database.repository.TaxEntityRepository;
+import com.allianz.example.mapper.PersonMapper;
+import com.allianz.example.mapper.TaxMapper;
 import com.allianz.example.model.PersonDTO;
+import com.allianz.example.model.TaxDTO;
+import com.allianz.example.model.requestDTO.PersonRequestDTO;
+import com.allianz.example.model.requestDTO.TaxRequestDTO;
 import com.allianz.example.service.PersonService;
 
+import com.allianz.example.service.TaxService;
+import com.allianz.example.util.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +25,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("PersonDTO")
-public class PersonController {
+public class PersonController extends BaseController<PersonEntity, PersonDTO, PersonRequestDTO, PersonEntityRepository, PersonMapper, PersonService> {
 
 
     //endpoint->son nokta-bitis noktası
@@ -25,6 +35,13 @@ public class PersonController {
     @Autowired
     PersonService personService;
 
+    @Autowired
+    PersonMapper personMapper;
+
+    @Override
+    protected PersonService getService() {
+        return personService;
+    }
 
     @GetMapping("hello-world")
     public ResponseEntity<String> helloWorldApi() {
@@ -116,21 +133,11 @@ public class PersonController {
         return new ResponseEntity<>(PersonDTO, HttpStatus.OK);
     }
 
-    @PostMapping("PersonDTO")
-    public ResponseEntity<PersonEntity> createPersonDTO(@RequestBody PersonDTO PersonDTO) throws Exception {
-
-        PersonEntity PersonDTO1 = personService.createPerson(PersonDTO.getName(), PersonDTO.getSurname(),
-                PersonDTO.getTc(), PersonDTO.getBirthYear());
-
-        //throw new Exception("slşdkaslşdkşlaskdas");
-
-        return new ResponseEntity<>(PersonDTO1, HttpStatus.CREATED);
-    }
 
     @DeleteMapping("PersonDTO/{uuid}")
     public ResponseEntity<Boolean> deletePersonDTO(@PathVariable UUID uuid) {
 
-        Boolean isDeleted = personService.deletePersonByUUID(uuid);
+        Boolean isDeleted = personService.deleteByUuid(uuid);
         if (isDeleted) {
             return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
         } else {
@@ -146,13 +153,13 @@ public class PersonController {
 
 
     @GetMapping("PersonDTO-by-uuid/{uuid}")
-    public ResponseEntity<PersonEntity> getPersonDTOByUUID(@PathVariable UUID uuid) {
+    public ResponseEntity<PersonDTO> getPersonDTOByUUID(@PathVariable UUID uuid) {
 
-        PersonEntity PersonEntity = personService.getPersonByUUID(uuid);
+        PersonDTO dto = personService.getByUuid(uuid);
 
-        if (PersonEntity != null) {
+        if (dto != null) {
 
-            return new ResponseEntity<>(PersonEntity, HttpStatus.OK);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
 
         } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -163,8 +170,8 @@ public class PersonController {
 
     @PutMapping("PersonDTO/{uuid}")
     public ResponseEntity<PersonEntity> updatePersonDTOByUUID(@PathVariable UUID uuid,
-                                                              @RequestBody PersonEntity PersonEntityNew) {
-        PersonEntity PersonEntity = personService.updatePersonByUUID(uuid, PersonEntityNew);
+                                                              @RequestBody PersonRequestDTO PersonRequestNew) {
+        PersonEntity PersonEntity = personMapper.dtoToEntity(personService.update(uuid, PersonRequestNew));
         if (PersonEntity != null) {
 
             return new ResponseEntity<>(PersonEntity, HttpStatus.OK);

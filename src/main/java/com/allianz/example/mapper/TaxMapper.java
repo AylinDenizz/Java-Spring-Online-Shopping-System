@@ -65,8 +65,12 @@ public class TaxMapper implements BaseMapper<TaxDTO, TaxEntity, TaxRequestDTO> {
     @Override
     public TaxEntity requestDTOToEntity(TaxRequestDTO dto) {
         TaxEntity entity = new TaxEntity();
-        entity.setName(dto.getName());
+        entity.setUuid(dto.getUuid());
+        entity.setCreationDate(dto.getCreationDate());
+        entity.setId(dto.getId());
+        entity.setUpdatedDate(dto.getUpdatedDate());
         entity.setCode(dto.getCode());
+        entity.setName(dto.getName());
         entity.setRate(dto.getRate());
 
         return entity;
@@ -74,6 +78,10 @@ public class TaxMapper implements BaseMapper<TaxDTO, TaxEntity, TaxRequestDTO> {
 
     @Override
     public TaxEntity requestDTOToExistEntity(TaxRequestDTO dto, TaxEntity entity) {
+        entity.setUuid(dto.getUuid());
+        entity.setCreationDate(dto.getCreationDate());
+        entity.setId(dto.getId());
+        entity.setUpdatedDate(dto.getUpdatedDate());
         entity.setCode(dto.getCode());
         entity.setName(dto.getName());
         entity.setRate(dto.getRate());

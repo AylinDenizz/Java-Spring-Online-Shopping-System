@@ -5,6 +5,8 @@ import com.allianz.example.database.repository.TaxEntityRepository;
 import com.allianz.example.mapper.TaxMapper;
 import com.allianz.example.model.TaxDTO;
 import com.allianz.example.model.requestDTO.TaxRequestDTO;
+import com.allianz.example.util.BaseMapper;
+import com.allianz.example.util.BaseRepository;
 import com.allianz.example.util.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,12 +17,22 @@ import java.util.Optional;
 import java.util.UUID;
 @Service
 @RestController
-public class TaxService extends BaseService< TaxDTO, TaxEntity, TaxRequestDTO> {
+public class TaxService extends BaseService<TaxDTO, TaxEntity, TaxRequestDTO, TaxEntityRepository, TaxMapper> {
     @Autowired
     TaxEntityRepository taxEntityRepository;
 
     @Autowired
     TaxMapper taxMapper;
+
+    @Override
+    protected TaxMapper getMapper() {
+        return  taxMapper;
+    }
+
+    @Override
+    protected TaxEntityRepository getRepository() {
+       return taxEntityRepository;
+    }
 
     @Override
     public TaxDTO save(TaxRequestDTO taxRequestDTO) {
@@ -68,6 +80,8 @@ public class TaxService extends BaseService< TaxDTO, TaxEntity, TaxRequestDTO> {
             return null;
         }
     }
+
+
 
 }
 

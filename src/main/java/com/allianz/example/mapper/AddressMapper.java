@@ -6,6 +6,7 @@ import com.allianz.example.model.requestDTO.AddressRequestDTO;
 import com.allianz.example.util.BaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,10 +52,10 @@ public class AddressMapper implements BaseMapper<AddressDTO, AddressEntity, Addr
     public List<AddressDTO> entityListToDTOList(List<AddressEntity> addressEntities) {
         List<AddressDTO> addressDTOList = new ArrayList<>();
 
-        for (AddressEntity addressEntity:addressEntities) {
+        for (AddressEntity addressEntity : addressEntities) {
             addressDTOList.add(entityToDTO(addressEntity));
         }
-        
+
         return addressDTOList;
     }
 
@@ -62,7 +63,7 @@ public class AddressMapper implements BaseMapper<AddressDTO, AddressEntity, Addr
     public List<AddressEntity> dtoListTOEntityList(List<AddressDTO> addressDTOS) {
         List<AddressEntity> addressList = new ArrayList<>();
 
-        for (AddressDTO addressDTO:addressDTOS) {
+        for (AddressDTO addressDTO : addressDTOS) {
             addressList.add(dtoToEntity(addressDTO));
         }
 
@@ -75,10 +76,13 @@ public class AddressMapper implements BaseMapper<AddressDTO, AddressEntity, Addr
     public AddressEntity requestDTOToEntity(AddressRequestDTO dto) {
         AddressEntity entity = new AddressEntity();
 
-        entity.setId(dto.getId());
-        entity.setTitle(dto.getTitle());
         entity.setCreationDate(dto.getCreationDate());
+        entity.setUuid(dto.getUuid());
+        entity.setId(dto.getId());
+        entity.setAddress(dto.getAddress());
+        entity.setTitle(dto.getTitle());
         entity.setUpdatedDate(dto.getUpdatedDate());
+        entity.setPerson(personMapper.requestDTOToEntity(dto.getPerson()));
 
         return entity;
     }

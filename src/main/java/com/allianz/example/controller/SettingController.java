@@ -26,6 +26,7 @@ public class SettingController {
     @Autowired
     SettingEntityRepository settingsRepository;
 
+
     @PostMapping("")
     public ResponseEntity<SettingDTO> save(@RequestBody SettingRequestDTO settingRequestDTO) {
         return new ResponseEntity<>(settingService.create(settingRequestDTO), HttpStatus.CREATED);

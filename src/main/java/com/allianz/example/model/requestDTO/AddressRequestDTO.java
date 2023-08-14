@@ -8,5 +8,5 @@ import lombok.Data;
 public class AddressRequestDTO extends BaseDTO {
     private String title;
     private String address;
-    private PersonDTO person;
+    private PersonRequestDTO person;
 }

@@ -16,5 +16,5 @@ public class BillRequestDTO extends BaseDTO {
     private BigDecimal taxAmount;
     private BigDecimal totalSellNetPrice;
     private BigDecimal totalSellPrice;
-    private OrderDTO order;
+    private OrderRequestDTO order;
 }

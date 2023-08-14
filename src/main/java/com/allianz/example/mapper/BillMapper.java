@@ -51,6 +51,8 @@ public class BillMapper implements BaseMapper<BillDTO, BillEntity, BillRequestDT
         entity.setUuid(dto.getUuid());
         entity.setCreationDate(dto.getCreationDate());
         entity.setUpdatedDate(dto.getUpdatedDate());
+        entity.setTotalSellNetPrice(dto.getTotalSellNetPrice());
+        entity.setTotalSellPrice(dto.getTotalSellPrice());
         entity.setOrder(orderMapper.dtoToEntity(dto.getOrder()));
 
         return entity;
@@ -78,15 +80,19 @@ public class BillMapper implements BaseMapper<BillDTO, BillEntity, BillRequestDT
 
     @Override
     public BillEntity requestDTOToEntity(BillRequestDTO dto) {
-        BillEntity billEntity = new BillEntity();
-        billEntity.setBillNo(dto.getBillNo());
-        billEntity.setTotalSellNetPrice(dto.getTotalSellPrice());
-        billEntity.setTotalSellNetPrice(dto.getTotalSellNetPrice());
-        billEntity.setId(dto.getId());
-        billEntity.setCreationDate(dto.getCreationDate());
-        billEntity.setUpdatedDate(dto.getUpdatedDate());
-        billEntity.setUuid(dto.getUuid());
-        return billEntity;
+        BillEntity entity = new BillEntity();
+        entity.setBillDate(dto.getBillDate());
+        entity.setBillNo(dto.getBillNo());
+        entity.setId(dto.getId());
+        entity.setTaxRate(dto.getTaxRate());
+        entity.setTaxAmount(dto.getTaxAmount());
+        entity.setUuid(dto.getUuid());
+        entity.setCreationDate(dto.getCreationDate());
+        entity.setUpdatedDate(dto.getUpdatedDate());
+        entity.setTotalSellNetPrice(dto.getTotalSellNetPrice());
+        entity.setTotalSellPrice(dto.getTotalSellPrice());
+        entity.setOrder(orderMapper.requestDTOToEntity(dto.getOrder()));
+        return entity;
     }
 
     @Override
