@@ -1,32 +1,31 @@
 package com.allianz.example.controller;
 
+import com.allianz.example.database.entity.ProductEntity;
 import com.allianz.example.database.entity.TaxEntity;
+import com.allianz.example.database.repository.ProductEntityRepository;
 import com.allianz.example.database.repository.TaxEntityRepository;
+import com.allianz.example.mapper.ProductMapper;
 import com.allianz.example.mapper.TaxMapper;
+import com.allianz.example.model.ProductDTO;
 import com.allianz.example.model.TaxDTO;
+import com.allianz.example.model.requestDTO.ProductRequestDTO;
 import com.allianz.example.model.requestDTO.TaxRequestDTO;
+import com.allianz.example.service.ProductService;
 import com.allianz.example.service.TaxService;
 import com.allianz.example.util.BaseController;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.UUID;
-
 @RestController
-@RequestMapping("taxes")
-public class TaxController extends BaseController<TaxEntity, TaxDTO, TaxRequestDTO,TaxEntityRepository, TaxMapper, TaxService> {
+@RequestMapping("product")
+public class ProductController extends BaseController<ProductEntity, ProductDTO, ProductRequestDTO,
+        ProductEntityRepository, ProductMapper, ProductService> {
 
     @Autowired
-    TaxService taxService;
-
+    ProductService productService;
     @Override
-    protected TaxService getService() {
-        return taxService;
+    protected ProductService getService() {
+        return productService;
     }
-
 }

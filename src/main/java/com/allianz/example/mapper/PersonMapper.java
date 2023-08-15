@@ -2,10 +2,13 @@ package com.allianz.example.mapper;
 
 import com.allianz.example.database.entity.PersonEntity;
 import com.allianz.example.model.PersonDTO;
+import com.allianz.example.model.ProductDTO;
 import com.allianz.example.model.requestDTO.PersonRequestDTO;
 import com.allianz.example.util.BaseMapper;
+import com.allianz.example.util.PageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -95,5 +98,19 @@ public class PersonMapper implements BaseMapper<PersonDTO, PersonEntity, PersonR
     @Override
     public List<PersonEntity> requestDTOListTOEntityList(List<PersonRequestDTO> personRequestDTOS) {
         return null;
+    }
+
+    @Override
+    public PageDTO<PersonDTO> pageEntityToPageDTO(Page<PersonEntity> entities) {
+        PageDTO<PersonDTO>  pageDTO = new PageDTO<>();
+        pageDTO.setTotalPages(entities.getTotalPages());
+        pageDTO.setSize(entities.getSize());
+        pageDTO.setContent(entityListToDTOList(entities.getContent()));
+        pageDTO.setNumber(entities.getNumber());
+        pageDTO.setTotalElements(entities.getTotalElements());
+        pageDTO.setNumberOfElement(entities.getNumberOfElements());
+        pageDTO.setSort(entities.getSort());
+
+        return  pageDTO;
     }
 }

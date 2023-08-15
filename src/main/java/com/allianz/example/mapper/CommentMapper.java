@@ -2,9 +2,12 @@ package com.allianz.example.mapper;
 
 import com.allianz.example.database.entity.CommentEntity;
 import com.allianz.example.model.CommentDTO;
+import com.allianz.example.model.ProductDTO;
 import com.allianz.example.model.requestDTO.CommentRequestDTO;
 
 import com.allianz.example.util.BaseMapper;
+import com.allianz.example.util.PageDTO;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -57,5 +60,19 @@ public class CommentMapper implements BaseMapper<CommentDTO, CommentEntity, Comm
     @Override
     public List<CommentEntity> requestDTOListTOEntityList(List<CommentRequestDTO> commentRequestDTOS) {
         return null;
+    }
+
+    @Override
+    public PageDTO<CommentDTO> pageEntityToPageDTO(Page<CommentEntity> entities) {
+        PageDTO<CommentDTO>  pageDTO = new PageDTO<>();
+        pageDTO.setTotalPages(entities.getTotalPages());
+        pageDTO.setSize(entities.getSize());
+        pageDTO.setContent(entityListToDTOList(entities.getContent()));
+        pageDTO.setNumber(entities.getNumber());
+        pageDTO.setTotalElements(entities.getTotalElements());
+        pageDTO.setNumberOfElement(entities.getNumberOfElements());
+        pageDTO.setSort(entities.getSort());
+
+        return  pageDTO;
     }
 }

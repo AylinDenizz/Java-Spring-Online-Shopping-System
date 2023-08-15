@@ -7,6 +7,8 @@ import com.allianz.example.model.TaxDTO;
 import com.allianz.example.model.requestDTO.TaxRequestDTO;
 
 import com.allianz.example.util.BaseMapper;
+import com.allianz.example.util.PageDTO;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -78,14 +80,24 @@ public class TaxMapper implements BaseMapper<TaxDTO, TaxEntity, TaxRequestDTO> {
 
     @Override
     public TaxEntity requestDTOToExistEntity(TaxRequestDTO dto, TaxEntity entity) {
-        entity.setUuid(dto.getUuid());
-        entity.setCreationDate(dto.getCreationDate());
-        entity.setId(dto.getId());
-        entity.setUpdatedDate(dto.getUpdatedDate());
         entity.setCode(dto.getCode());
         entity.setName(dto.getName());
         entity.setRate(dto.getRate());
         return entity;
+    }
+
+    @Override
+    public PageDTO<TaxDTO> pageEntityToPageDTO(Page<TaxEntity> taxEntities) {
+        PageDTO<TaxDTO>  taxDTOPageDTO = new PageDTO<>();
+        taxDTOPageDTO.setTotalPages(taxEntities.getTotalPages());
+        taxDTOPageDTO.setSize(taxEntities.getSize());
+        taxDTOPageDTO.setContent(entityListToDTOList(taxEntities.getContent()));
+        taxDTOPageDTO.setNumber(taxEntities.getNumber());
+        taxDTOPageDTO.setTotalElements(taxEntities.getTotalElements());
+        taxDTOPageDTO.setNumberOfElement(taxEntities.getNumberOfElements());
+        taxDTOPageDTO.setSort(taxEntities.getSort());
+        return  taxDTOPageDTO;
+
     }
 
     @Override

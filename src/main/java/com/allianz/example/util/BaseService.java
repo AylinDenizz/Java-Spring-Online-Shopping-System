@@ -1,7 +1,13 @@
 package com.allianz.example.util;
 
+import com.allianz.example.database.repository.AddressEntityRepository;
+import com.allianz.example.model.TaxDTO;
 import com.allianz.example.util.dbutil.BaseEntity;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.NoRepositoryBean;
 
 
@@ -28,10 +34,14 @@ public abstract class BaseService<
 
     }
 
-    public List<DTO> getAll(){
+    public PageDTO<DTO> getAll(int pageNumber, int size){
+        Pageable pageable = PageRequest.of(pageNumber, size, Sort.by("id").descending());
         List<Entity> sellerEntities = getRepository().findAll();
-        return getMapper().entityListToDTOList(sellerEntities);
+        Page<Entity> entityPage = getRepository().findAll(pageable);
+        return getMapper().pageEntityToPageDTO(entityPage);
     }
+
+    public abstract List<TaxDTO> getAll();
 
     public DTO update(UUID uuid, RequestDTO requestDTO){
         Entity entity = getRepository().findByUuid(uuid).orElse(null);

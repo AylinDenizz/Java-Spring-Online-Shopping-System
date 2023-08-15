@@ -6,7 +6,9 @@ import com.allianz.example.model.CategoryDTO;
 import com.allianz.example.model.ProductDTO;
 import com.allianz.example.model.requestDTO.CategoryRequestDTO;
 import com.allianz.example.util.BaseMapper;
+import com.allianz.example.util.PageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -100,5 +102,19 @@ public class CategoryMapper implements BaseMapper<CategoryDTO, CategoryEntity, C
     @Override
     public List<CategoryEntity> requestDTOListTOEntityList(List<CategoryRequestDTO> categoryRequestDTOS) {
         return null;
+    }
+
+    @Override
+    public PageDTO<CategoryDTO> pageEntityToPageDTO(Page<CategoryEntity> entities) {
+        PageDTO<CategoryDTO>  pageDTO = new PageDTO<>();
+        pageDTO.setTotalPages(entities.getTotalPages());
+        pageDTO.setSize(entities.getSize());
+        pageDTO.setContent(entityListToDTOList(entities.getContent()));
+        pageDTO.setNumber(entities.getNumber());
+        pageDTO.setTotalElements(entities.getTotalElements());
+        pageDTO.setNumberOfElement(entities.getNumberOfElements());
+        pageDTO.setSort(entities.getSort());
+
+        return  pageDTO;
     }
 }

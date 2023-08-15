@@ -5,8 +5,6 @@ import com.allianz.example.database.repository.TaxEntityRepository;
 import com.allianz.example.mapper.TaxMapper;
 import com.allianz.example.model.TaxDTO;
 import com.allianz.example.model.requestDTO.TaxRequestDTO;
-import com.allianz.example.util.BaseMapper;
-import com.allianz.example.util.BaseRepository;
 import com.allianz.example.util.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

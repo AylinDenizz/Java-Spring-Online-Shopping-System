@@ -2,9 +2,12 @@ package com.allianz.example.mapper;
 
 import com.allianz.example.database.entity.AddressEntity;
 import com.allianz.example.model.AddressDTO;
+import com.allianz.example.model.ProductDTO;
 import com.allianz.example.model.requestDTO.AddressRequestDTO;
 import com.allianz.example.util.BaseMapper;
+import com.allianz.example.util.PageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -95,5 +98,19 @@ public class AddressMapper implements BaseMapper<AddressDTO, AddressEntity, Addr
     @Override
     public AddressEntity requestDTOToExistEntity(AddressRequestDTO dto, AddressEntity entity) {
         return null;
+    }
+
+    @Override
+    public PageDTO<AddressDTO> pageEntityToPageDTO(Page<AddressEntity> entities) {
+        PageDTO<AddressDTO>  pageDTO = new PageDTO<>();
+        pageDTO.setTotalPages(entities.getTotalPages());
+        pageDTO.setSize(entities.getSize());
+        pageDTO.setContent(entityListToDTOList(entities.getContent()));
+        pageDTO.setNumber(entities.getNumber());
+        pageDTO.setTotalElements(entities.getTotalElements());
+        pageDTO.setNumberOfElement(entities.getNumberOfElements());
+        pageDTO.setSort(entities.getSort());
+
+        return  pageDTO;
     }
 }

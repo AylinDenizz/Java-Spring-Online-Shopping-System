@@ -2,8 +2,11 @@ package com.allianz.example.mapper;
 
 import com.allianz.example.database.entity.SettingEntity;
 import com.allianz.example.model.SettingDTO;
+
 import com.allianz.example.model.requestDTO.SettingRequestDTO;
 import com.allianz.example.util.BaseMapper;
+import com.allianz.example.util.PageDTO;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -81,4 +84,17 @@ public class SettingMapper implements BaseMapper<SettingDTO, SettingEntity, Sett
         return null;
     }
 
+    @Override
+    public PageDTO<SettingDTO> pageEntityToPageDTO(Page<SettingEntity> settingEntities) {
+        PageDTO<SettingDTO>  settingsPageDTO = new PageDTO<>();
+        settingsPageDTO.setTotalPages(settingEntities.getTotalPages());
+        settingsPageDTO.setSize(settingEntities.getSize());
+        settingsPageDTO.setContent(entityListToDTOList(settingEntities.getContent()));
+        settingsPageDTO.setNumber(settingEntities.getNumber());
+        settingsPageDTO.setTotalElements(settingEntities.getTotalElements());
+        settingsPageDTO.setNumberOfElement(settingEntities.getNumberOfElements());
+        settingsPageDTO.setSort(settingEntities.getSort());
+
+        return  settingsPageDTO;
+    }
 }

@@ -23,9 +23,9 @@ public abstract class BaseController<
         return new ResponseEntity<>(getService().save(requestDTO), HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public ResponseEntity<List<DTO>> getALL() {
-        return new ResponseEntity<>(getService().getAll(), HttpStatus.OK);
+    @GetMapping("page-number/{pNum}/page-size/{pSize}")
+    public ResponseEntity<PageDTO<DTO>> getALL(@PathVariable int pNum, @PathVariable int pSize) {
+        return new ResponseEntity<>(getService().getAll(pNum,pSize), HttpStatus.OK);
     }
 
     @PutMapping("update/{uuid}")

@@ -2,10 +2,13 @@ package com.allianz.example.mapper;
 
 import com.allianz.example.database.entity.CustomerEntity;
 import com.allianz.example.model.CustomerDTO;
+import com.allianz.example.model.ProductDTO;
 import com.allianz.example.model.requestDTO.CustomerRequestDTO;
 import com.allianz.example.util.BaseMapper;
+import com.allianz.example.util.PageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -104,5 +107,19 @@ public class CustomerMapper implements BaseMapper<CustomerDTO, CustomerEntity, C
     @Override
     public List<CustomerEntity> requestDTOListTOEntityList(List<CustomerRequestDTO> customerRequestDTOS) {
         return null;
+    }
+
+    @Override
+    public PageDTO<CustomerDTO> pageEntityToPageDTO(Page<CustomerEntity> entities) {
+        PageDTO<CustomerDTO>  pageDTO = new PageDTO<>();
+        pageDTO.setTotalPages(entities.getTotalPages());
+        pageDTO.setSize(entities.getSize());
+        pageDTO.setContent(entityListToDTOList(entities.getContent()));
+        pageDTO.setNumber(entities.getNumber());
+        pageDTO.setTotalElements(entities.getTotalElements());
+        pageDTO.setNumberOfElement(entities.getNumberOfElements());
+        pageDTO.setSort(entities.getSort());
+
+        return  pageDTO;
     }
 }

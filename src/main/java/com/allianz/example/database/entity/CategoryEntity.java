@@ -27,6 +27,7 @@ public class CategoryEntity extends BaseEntity {
             joinColumns = {@JoinColumn(name = "category_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id")}
     )
+
     private Set<ProductEntity> productList = new HashSet<>();
 
 
