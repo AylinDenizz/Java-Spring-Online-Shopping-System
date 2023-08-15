@@ -38,12 +38,6 @@ public class SellerService extends BaseService<SellerDTO, SellerEntity, SellerRe
     }
 
     @Override
-    public List<SellerDTO> getAll() {
-        List<SellerEntity> sellerEntities = sellerRepository.findAll();
-        return sellerMapper.entityListToDTOList(sellerEntities);
-    }
-
-    @Override
     public SellerDTO update(UUID uuid, SellerRequestDTO sellerRequestDTO) {
         SellerEntity sellerEntity = sellerRepository.findByUuid(uuid).orElse(null);
         if (sellerEntity == null) {

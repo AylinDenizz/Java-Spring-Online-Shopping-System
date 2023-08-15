@@ -12,7 +12,7 @@ import lombok.Data;
 @AttributeOverride(
         name = "uuid",
         column = @Column(
-                name = "address_uuid"
+                name = "comment_uuid"
         )
 )
 @Data

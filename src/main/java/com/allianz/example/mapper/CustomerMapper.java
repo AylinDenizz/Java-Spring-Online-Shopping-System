@@ -2,10 +2,10 @@ package com.allianz.example.mapper;
 
 import com.allianz.example.database.entity.CustomerEntity;
 import com.allianz.example.model.CustomerDTO;
-import com.allianz.example.model.ProductDTO;
+import com.allianz.example.model.OrderItemDTO;
 import com.allianz.example.model.requestDTO.CustomerRequestDTO;
+import com.allianz.example.model.requestDTO.PageDTO;
 import com.allianz.example.util.BaseMapper;
-import com.allianz.example.util.PageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
@@ -47,7 +47,17 @@ public class CustomerMapper implements BaseMapper<CustomerDTO, CustomerEntity, C
 
     @Override
     public CustomerEntity requestDTOToExistEntity(CustomerRequestDTO dto, CustomerEntity entity) {
-        return null;
+        entity.setUpdatedDate(dto.getUpdatedDate());
+        entity.setId(dto.getId());
+        entity.setCompanyName(dto.getCompanyName());
+        entity.setCreationDate(dto.getCreationDate());
+        entity.setUuid(dto.getUuid());
+        entity.setIsCorporate(dto.getIsCorporate());
+        entity.setTaxNumber(dto.getTaxNumber());
+        entity.setTaxOffice(dto.getTaxOffice());
+        entity.setPerson(personMapper.requestDTOToEntity(dto.getPerson()));
+        entity.setOrderList(orderMapper.requestDTOListTOEntityList(dto.getOrderList()));
+        return entity;
     }
 
     @Override
@@ -106,12 +116,16 @@ public class CustomerMapper implements BaseMapper<CustomerDTO, CustomerEntity, C
 
     @Override
     public List<CustomerEntity> requestDTOListTOEntityList(List<CustomerRequestDTO> customerRequestDTOS) {
-        return null;
+        List<CustomerEntity> customerEntities = new ArrayList<>();
+        for (CustomerRequestDTO customerDTO : customerRequestDTOS) {
+            customerEntities.add(requestDTOToEntity(customerDTO));
+        }
+        return customerEntities;
     }
 
     @Override
     public PageDTO<CustomerDTO> pageEntityToPageDTO(Page<CustomerEntity> entities) {
-        PageDTO<CustomerDTO>  pageDTO = new PageDTO<>();
+        PageDTO<CustomerDTO> pageDTO = new PageDTO<>();
         pageDTO.setTotalPages(entities.getTotalPages());
         pageDTO.setSize(entities.getSize());
         pageDTO.setContent(entityListToDTOList(entities.getContent()));

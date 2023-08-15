@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AttributeOverride(
         name = "uuid",
         column = @Column(
-                name = "address_uuid"
+                name = "bill_uuid"
         )
 )
 @Data

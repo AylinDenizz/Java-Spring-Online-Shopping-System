@@ -1,17 +1,23 @@
 package com.allianz.example.mapper;
 
+import com.allianz.example.database.entity.AddressEntity;
 import com.allianz.example.database.entity.SettingEntity;
+import com.allianz.example.model.AddressDTO;
+import com.allianz.example.model.OrderItemDTO;
 import com.allianz.example.model.SettingDTO;
 
+import com.allianz.example.model.requestDTO.PageDTO;
 import com.allianz.example.model.requestDTO.SettingRequestDTO;
 import com.allianz.example.util.BaseMapper;
-import com.allianz.example.util.PageDTO;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-
+import java.util.function.Function;
 
 
 @Component
@@ -76,17 +82,29 @@ public class SettingMapper implements BaseMapper<SettingDTO, SettingEntity, Sett
 
     @Override
     public List<SettingEntity> requestDTOListTOEntityList(List<SettingRequestDTO> settingRequestDTOS) {
-        return null;
+        List<SettingEntity> dtoList = new ArrayList<>();
+        for (SettingRequestDTO dto : settingRequestDTOS) {
+            SettingEntity entity = requestDTOToEntity(dto);
+            dtoList.add(entity);
+        }
+        return dtoList;
+
     }
 
     @Override
     public SettingEntity requestDTOToExistEntity(SettingRequestDTO dto, SettingEntity entity) {
-        return null;
+        entity.setId(dto.getId());
+        entity.setUuid(dto.getUuid());
+        entity.setCreationDate(dto.getCreationDate());
+        entity.setUpdatedDate(dto.getUpdatedDate());
+        entity.setKey(dto.getKey());
+        entity.setValue(dto.getValue());
+        return entity;
     }
 
     @Override
     public PageDTO<SettingDTO> pageEntityToPageDTO(Page<SettingEntity> settingEntities) {
-        PageDTO<SettingDTO>  settingsPageDTO = new PageDTO<>();
+        PageDTO<SettingDTO> settingsPageDTO = new PageDTO<>();
         settingsPageDTO.setTotalPages(settingEntities.getTotalPages());
         settingsPageDTO.setSize(settingEntities.getSize());
         settingsPageDTO.setContent(entityListToDTOList(settingEntities.getContent()));
@@ -95,6 +113,6 @@ public class SettingMapper implements BaseMapper<SettingDTO, SettingEntity, Sett
         settingsPageDTO.setNumberOfElement(settingEntities.getNumberOfElements());
         settingsPageDTO.setSort(settingEntities.getSort());
 
-        return  settingsPageDTO;
+        return settingsPageDTO;
     }
 }

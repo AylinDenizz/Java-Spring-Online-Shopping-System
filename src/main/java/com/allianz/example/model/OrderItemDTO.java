@@ -1,13 +1,11 @@
 package com.allianz.example.model;
 
-import com.allianz.example.database.entity.ProductEntity;
 import com.allianz.example.util.BaseDTO;
-import jakarta.persistence.Column;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToOne;
 import lombok.Data;
+import org.springframework.data.domain.Sort;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 public class OrderItemDTO extends BaseDTO {

@@ -1,16 +1,13 @@
-package com.allianz.example.util;
+package com.allianz.example.model.requestDTO;
 
+import com.allianz.example.util.BaseDTO;
 import lombok.Data;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.function.Function;
+
 @Data
-public class PageDTO<DTO extends BaseDTO>{
+public class PageDTO<DTO extends BaseDTO> {
 
 
     private int TotalPages;
@@ -22,3 +19,4 @@ public class PageDTO<DTO extends BaseDTO>{
     private boolean hasContent;
     private Sort sort;
 }
+

@@ -3,11 +3,12 @@ package com.allianz.example.mapper;
 
 import com.allianz.example.database.entity.TaxEntity;
 
+import com.allianz.example.model.OrderItemDTO;
 import com.allianz.example.model.TaxDTO;
+import com.allianz.example.model.requestDTO.PageDTO;
 import com.allianz.example.model.requestDTO.TaxRequestDTO;
 
 import com.allianz.example.util.BaseMapper;
-import com.allianz.example.util.PageDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -88,7 +89,7 @@ public class TaxMapper implements BaseMapper<TaxDTO, TaxEntity, TaxRequestDTO> {
 
     @Override
     public PageDTO<TaxDTO> pageEntityToPageDTO(Page<TaxEntity> taxEntities) {
-        PageDTO<TaxDTO>  taxDTOPageDTO = new PageDTO<>();
+        PageDTO<TaxDTO> taxDTOPageDTO = new PageDTO<>();
         taxDTOPageDTO.setTotalPages(taxEntities.getTotalPages());
         taxDTOPageDTO.setSize(taxEntities.getSize());
         taxDTOPageDTO.setContent(entityListToDTOList(taxEntities.getContent()));
@@ -102,6 +103,10 @@ public class TaxMapper implements BaseMapper<TaxDTO, TaxEntity, TaxRequestDTO> {
 
     @Override
     public List<TaxEntity> requestDTOListTOEntityList(List<TaxRequestDTO> taxRequestDTOS) {
-        return null;
+        List<TaxEntity> entities = new ArrayList<>();
+        for (TaxRequestDTO dto : taxRequestDTOS) {
+            entities.add(requestDTOToEntity(dto));
+        }
+        return entities;
     }
 }

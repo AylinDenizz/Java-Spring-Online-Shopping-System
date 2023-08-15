@@ -3,10 +3,11 @@ package com.allianz.example.mapper;
 import com.allianz.example.database.entity.CategoryEntity;
 import com.allianz.example.database.entity.ProductEntity;
 import com.allianz.example.model.CategoryDTO;
+import com.allianz.example.model.OrderItemDTO;
 import com.allianz.example.model.ProductDTO;
 import com.allianz.example.model.requestDTO.CategoryRequestDTO;
+import com.allianz.example.model.requestDTO.PageDTO;
 import com.allianz.example.util.BaseMapper;
-import com.allianz.example.util.PageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -19,11 +20,6 @@ import java.util.Set;
 @Component
 public class CategoryMapper implements BaseMapper<CategoryDTO, CategoryEntity, CategoryRequestDTO> {
     private final ProductMapper productMapper;
-
-    @Override
-    public CategoryEntity requestDTOToExistEntity(CategoryRequestDTO dto, CategoryEntity entity) {
-        return null;
-    }
 
     @Autowired
     public CategoryMapper(ProductMapper productMapper) {
@@ -38,10 +34,10 @@ public class CategoryMapper implements BaseMapper<CategoryDTO, CategoryEntity, C
         categoryDTO.setCreationDate(entity.getCreationDate());
         categoryDTO.setName(entity.getName());
         categoryDTO.setUuid(entity.getUuid());
-
-        Set<ProductDTO> productDTOS = new HashSet<>(productMapper.entityListToDTOList(new ArrayList<>(entity.getProductList())));
-        categoryDTO.setProductList(productDTOS);
-
+        if (entity.getProductList() != null) {
+            Set<ProductDTO> productDTOS = new HashSet<>(productMapper.entityListToDTOList(new ArrayList<>(entity.getProductList())));
+            categoryDTO.setProductList(productDTOS);
+        }
 
         return categoryDTO;
     }
@@ -55,12 +51,10 @@ public class CategoryMapper implements BaseMapper<CategoryDTO, CategoryEntity, C
         categoryEntity.setCreationDate(dto.getCreationDate());
         categoryEntity.setName(dto.getName());
         categoryEntity.setUuid(dto.getUuid());
-
-        Set<ProductEntity> productDTOS = new HashSet<>(productMapper.dtoListTOEntityList(new ArrayList<>(dto.getProductList())));
-        categoryEntity.setProductList(productDTOS);
-
-
-
+        if (dto.getProductList() != null) {
+            Set<ProductEntity> productDTOS = new HashSet<>(productMapper.dtoListTOEntityList(new ArrayList<>(dto.getProductList())));
+            categoryEntity.setProductList(productDTOS);
+        }
 
         return categoryEntity;
     }
@@ -92,21 +86,25 @@ public class CategoryMapper implements BaseMapper<CategoryDTO, CategoryEntity, C
         categoryEntity.setName(dto.getName());
         categoryEntity.setUuid(dto.getUuid());
 
-
-        Set<ProductEntity> productDTOS = new HashSet<>(productMapper.requestDTOListTOEntityList(new ArrayList<>(dto.getProductList())));
-        categoryEntity.setProductList(productDTOS);
-
+        if (dto.getProductList() != null) {
+            Set<ProductEntity> productDTOS = new HashSet<>(productMapper.requestDTOListTOEntityList(new ArrayList<>(dto.getProductList())));
+            categoryEntity.setProductList(productDTOS);
+        }
         return categoryEntity;
     }
 
     @Override
     public List<CategoryEntity> requestDTOListTOEntityList(List<CategoryRequestDTO> categoryRequestDTOS) {
-        return null;
+        List<CategoryEntity> categoryEntities = new ArrayList<>();
+        for (CategoryRequestDTO categoryDTO : categoryRequestDTOS) {
+            categoryEntities.add(requestDTOToEntity(categoryDTO));
+        }
+        return categoryEntities;
     }
 
     @Override
     public PageDTO<CategoryDTO> pageEntityToPageDTO(Page<CategoryEntity> entities) {
-        PageDTO<CategoryDTO>  pageDTO = new PageDTO<>();
+        PageDTO<CategoryDTO> pageDTO = new PageDTO<>();
         pageDTO.setTotalPages(entities.getTotalPages());
         pageDTO.setSize(entities.getSize());
         pageDTO.setContent(entityListToDTOList(entities.getContent()));
@@ -115,6 +113,24 @@ public class CategoryMapper implements BaseMapper<CategoryDTO, CategoryEntity, C
         pageDTO.setNumberOfElement(entities.getNumberOfElements());
         pageDTO.setSort(entities.getSort());
 
-        return  pageDTO;
+        return pageDTO;
     }
+
+
+    @Override
+    public CategoryEntity requestDTOToExistEntity(CategoryRequestDTO dto, CategoryEntity entity) {
+        entity.setId(dto.getId());
+        entity.setUpdatedDate(dto.getUpdatedDate());
+        entity.setCreationDate(dto.getCreationDate());
+        entity.setName(dto.getName());
+        entity.setUuid(dto.getUuid());
+
+        if (dto.getProductList() != null) {
+            Set<ProductEntity> productDTOS = new HashSet<>(productMapper.requestDTOListTOEntityList(new ArrayList<>(dto.getProductList())));
+            entity.setProductList(productDTOS);
+        }
+        return entity;
+    }
+
+
 }

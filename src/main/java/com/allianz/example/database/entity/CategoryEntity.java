@@ -12,7 +12,7 @@ import java.util.Set;
 @AttributeOverride(
         name = "uuid",
         column = @Column(
-                name = "address_uuid"
+                name = "category_uuid"
         )
 )
 @Data
@@ -22,11 +22,7 @@ public class CategoryEntity extends BaseEntity {
     private String name;
 
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "category_product",
-            joinColumns = {@JoinColumn(name = "category_id")},
-            inverseJoinColumns = {@JoinColumn(name = "product_id")}
-    )
+    @ManyToMany(mappedBy = "categoryList", cascade = CascadeType.ALL)
 
     private Set<ProductEntity> productList = new HashSet<>();
 

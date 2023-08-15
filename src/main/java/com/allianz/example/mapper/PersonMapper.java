@@ -1,11 +1,11 @@
 package com.allianz.example.mapper;
 
 import com.allianz.example.database.entity.PersonEntity;
+import com.allianz.example.model.OrderItemDTO;
 import com.allianz.example.model.PersonDTO;
-import com.allianz.example.model.ProductDTO;
+import com.allianz.example.model.requestDTO.PageDTO;
 import com.allianz.example.model.requestDTO.PersonRequestDTO;
 import com.allianz.example.util.BaseMapper;
-import com.allianz.example.util.PageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
@@ -65,11 +65,11 @@ public class PersonMapper implements BaseMapper<PersonDTO, PersonEntity, PersonR
 
     @Override
     public List<PersonEntity> dtoListTOEntityList(List<PersonDTO> personDTOS) {
-        List<PersonEntity> orderEntities = new ArrayList<>();
+        List<PersonEntity> personEntities = new ArrayList<>();
         for (PersonDTO personDTO: personDTOS) {
-            orderEntities.add(dtoToEntity(personDTO));
+            personEntities.add(dtoToEntity(personDTO));
         }
-        return orderEntities;
+        return personEntities;
 
     }
 
@@ -92,17 +92,31 @@ public class PersonMapper implements BaseMapper<PersonDTO, PersonEntity, PersonR
 
     @Override
     public PersonEntity requestDTOToExistEntity(PersonRequestDTO dto, PersonEntity entity) {
-        return null;
+        entity.setId(dto.getId());
+        entity.setUuid(dto.getUuid());
+        entity.setCreationDate(dto.getCreationDate());
+        entity.setUpdatedDate(dto.getUpdatedDate());
+        entity.setName(dto.getName());
+        entity.setSurname(dto.getSurname());
+        entity.setTc(dto.getTc());
+        entity.setBirthYear(dto.getBirthYear());
+        entity.setAddressList(addressMapper.requestDTOListTOEntityList(dto.getAddressList()));
+
+        return entity;
     }
 
     @Override
     public List<PersonEntity> requestDTOListTOEntityList(List<PersonRequestDTO> personRequestDTOS) {
-        return null;
+        List<PersonEntity> personEntities = new ArrayList<>();
+        for (PersonRequestDTO personDTO: personRequestDTOS) {
+            personEntities.add(requestDTOToEntity(personDTO));
+        }
+        return personEntities;
     }
 
     @Override
     public PageDTO<PersonDTO> pageEntityToPageDTO(Page<PersonEntity> entities) {
-        PageDTO<PersonDTO>  pageDTO = new PageDTO<>();
+        PageDTO<PersonDTO> pageDTO = new PageDTO<>();
         pageDTO.setTotalPages(entities.getTotalPages());
         pageDTO.setSize(entities.getSize());
         pageDTO.setContent(entityListToDTOList(entities.getContent()));

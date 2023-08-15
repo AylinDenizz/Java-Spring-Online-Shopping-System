@@ -40,11 +40,6 @@ public class TaxService extends BaseService<TaxDTO, TaxEntity, TaxRequestDTO, Ta
     }
 
     @Override
-    public List<TaxDTO> getAll() {
-        return taxMapper.entityListToDTOList(taxEntityRepository.findAll());
-    }
-
-    @Override
     public TaxDTO update(UUID uuid, TaxRequestDTO taxRequestDTO) {
 
         TaxEntity taxEntity = taxEntityRepository.findByUuid(uuid).orElse(null);

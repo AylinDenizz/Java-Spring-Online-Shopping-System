@@ -1,5 +1,7 @@
 package com.allianz.example.util;
 
+import com.allianz.example.model.OrderItemDTO;
+import com.allianz.example.model.requestDTO.PageDTO;
 import com.allianz.example.util.dbutil.BaseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;

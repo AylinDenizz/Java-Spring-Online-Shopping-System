@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @AttributeOverride(
         name = "uuid",
         column = @Column(
-                name = "address_uuid"
+                name = "orderItem_uuid"
         )
 )
 @Data

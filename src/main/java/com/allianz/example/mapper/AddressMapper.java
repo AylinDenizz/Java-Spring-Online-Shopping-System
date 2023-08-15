@@ -2,16 +2,20 @@ package com.allianz.example.mapper;
 
 import com.allianz.example.database.entity.AddressEntity;
 import com.allianz.example.model.AddressDTO;
-import com.allianz.example.model.ProductDTO;
+import com.allianz.example.model.OrderItemDTO;
 import com.allianz.example.model.requestDTO.AddressRequestDTO;
+import com.allianz.example.model.requestDTO.PageDTO;
 import com.allianz.example.util.BaseMapper;
-import com.allianz.example.util.PageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
 
 @Component
 public class AddressMapper implements BaseMapper<AddressDTO, AddressEntity, AddressRequestDTO> {
@@ -92,17 +96,32 @@ public class AddressMapper implements BaseMapper<AddressDTO, AddressEntity, Addr
 
     @Override
     public List<AddressEntity> requestDTOListTOEntityList(List<AddressRequestDTO> addressRequestDTOS) {
-        return null;
+        List<AddressEntity> addressList = new ArrayList<>();
+
+        for (AddressRequestDTO addressDTO : addressRequestDTOS) {
+            addressList.add(requestDTOToEntity(addressDTO));
+        }
+
+        return addressList;
+
     }
 
     @Override
     public AddressEntity requestDTOToExistEntity(AddressRequestDTO dto, AddressEntity entity) {
-        return null;
+        entity.setCreationDate(dto.getCreationDate());
+        entity.setUuid(dto.getUuid());
+        entity.setId(dto.getId());
+        entity.setAddress(dto.getAddress());
+        entity.setTitle(dto.getTitle());
+        entity.setUpdatedDate(dto.getUpdatedDate());
+        entity.setPerson(personMapper.requestDTOToEntity(dto.getPerson()));
+
+        return entity;
     }
 
     @Override
     public PageDTO<AddressDTO> pageEntityToPageDTO(Page<AddressEntity> entities) {
-        PageDTO<AddressDTO>  pageDTO = new PageDTO<>();
+        PageDTO<AddressDTO> pageDTO = new PageDTO<>();
         pageDTO.setTotalPages(entities.getTotalPages());
         pageDTO.setSize(entities.getSize());
         pageDTO.setContent(entityListToDTOList(entities.getContent()));
@@ -113,4 +132,5 @@ public class AddressMapper implements BaseMapper<AddressDTO, AddressEntity, Addr
 
         return  pageDTO;
     }
+
 }

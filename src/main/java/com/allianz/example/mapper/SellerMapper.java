@@ -3,12 +3,12 @@ package com.allianz.example.mapper;
 
 import com.allianz.example.database.entity.SellerEntity;
 
+import com.allianz.example.model.OrderItemDTO;
 import com.allianz.example.model.SellerDTO;
-import com.allianz.example.model.SettingDTO;
+import com.allianz.example.model.requestDTO.PageDTO;
 import com.allianz.example.model.requestDTO.SellerRequestDTO;
 
 import com.allianz.example.util.BaseMapper;
-import com.allianz.example.util.PageDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -104,12 +104,16 @@ public class SellerMapper implements BaseMapper<SellerDTO, SellerEntity, SellerR
 
     @Override
     public List<SellerEntity> requestDTOListTOEntityList(List<SellerRequestDTO> sellerRequestDTOS) {
-        return null;
+        List<SellerEntity> entities = new ArrayList<>();
+        for (SellerRequestDTO dto: sellerRequestDTOS) {
+            entities.add(requestDTOToEntity(dto));
+        }
+        return entities;
     }
 
     @Override
     public PageDTO<SellerDTO> pageEntityToPageDTO(Page<SellerEntity> entities) {
-        PageDTO<SellerDTO>  pageDTO = new PageDTO<>();
+        PageDTO<SellerDTO> pageDTO = new PageDTO<>();
         pageDTO.setTotalPages(entities.getTotalPages());
         pageDTO.setSize(entities.getSize());
         pageDTO.setContent(entityListToDTOList(entities.getContent()));

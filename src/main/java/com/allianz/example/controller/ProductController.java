@@ -14,6 +14,10 @@ import com.allianz.example.service.ProductService;
 import com.allianz.example.service.TaxService;
 import com.allianz.example.util.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,5 +31,12 @@ public class ProductController extends BaseController<ProductEntity, ProductDTO,
     @Override
     protected ProductService getService() {
         return productService;
+    }
+
+    @PostMapping("add-others")
+    public ResponseEntity<ProductDTO> addOtherRelations(@RequestBody ProductRequestDTO productRequestDTO) {
+        return new ResponseEntity<>(productService.saveWithCategory(productRequestDTO), HttpStatus.OK);
+
+
     }
 }

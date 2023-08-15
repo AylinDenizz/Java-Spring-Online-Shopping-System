@@ -3,11 +3,10 @@ package com.allianz.example.mapper;
 import com.allianz.example.database.entity.OrderItemEntity;
 import com.allianz.example.model.OrderItemDTO;
 
-import com.allianz.example.model.ProductDTO;
 import com.allianz.example.model.requestDTO.OrderItemRequestDTO;
 
+import com.allianz.example.model.requestDTO.PageDTO;
 import com.allianz.example.util.BaseMapper;
-import com.allianz.example.util.PageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -48,7 +47,7 @@ public class OrderItemMapper implements BaseMapper<OrderItemDTO, OrderItemEntity
         orderItem.setUpdatedDate(dto.getUpdatedDate());
         orderItem.setQuantity(dto.getQuantity());
         orderItem.setSellPrice(dto.getSellPrice());
-        // orderItem.setProduct(productMapper.dtoToEntity(dto.getProduct()));
+        orderItem.setProduct(productMapper.dtoToEntity(dto.getProduct()));
 
 
         return orderItem;
@@ -73,8 +72,16 @@ public class OrderItemMapper implements BaseMapper<OrderItemDTO, OrderItemEntity
     }
 
     @Override
-    public OrderItemEntity requestDTOToExistEntity(OrderItemRequestDTO dto, OrderItemEntity entity) {
-        return null;
+    public OrderItemEntity requestDTOToExistEntity(OrderItemRequestDTO dto, OrderItemEntity orderItem) {
+        orderItem.setUuid(dto.getUuid());
+        orderItem.setCreationDate(dto.getCreationDate());
+        orderItem.setId(dto.getId());
+        orderItem.setUpdatedDate(dto.getUpdatedDate());
+        orderItem.setQuantity(dto.getQuantity());
+        orderItem.setSellPrice(dto.getSellPrice());
+        orderItem.setProduct(productMapper.dtoToEntity(dto.getProduct()));
+
+        return orderItem;
     }
 
 
@@ -94,12 +101,17 @@ public class OrderItemMapper implements BaseMapper<OrderItemDTO, OrderItemEntity
 
     @Override
     public List<OrderItemEntity> requestDTOListTOEntityList(List<OrderItemRequestDTO> orderRequestDTOS) {
-        return null;
+        List<OrderItemEntity> orderItem = new ArrayList<>();
+        for (OrderItemRequestDTO orderItemDTO : orderRequestDTOS) {
+            orderItem.add(requestDTOToEntity(orderItemDTO));
+        }
+        return orderItem;
+
     }
 
     @Override
     public PageDTO<OrderItemDTO> pageEntityToPageDTO(Page<OrderItemEntity> entities) {
-        PageDTO<OrderItemDTO>  pageDTO = new PageDTO<>();
+        PageDTO<OrderItemDTO> pageDTO = new PageDTO<>();
         pageDTO.setTotalPages(entities.getTotalPages());
         pageDTO.setSize(entities.getSize());
         pageDTO.setContent(entityListToDTOList(entities.getContent()));

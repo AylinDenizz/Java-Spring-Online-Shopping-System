@@ -5,11 +5,11 @@ import com.allianz.example.database.entity.CategoryEntity;
 import com.allianz.example.database.entity.ProductEntity;
 
 import com.allianz.example.model.CategoryDTO;
+import com.allianz.example.model.OrderItemDTO;
 import com.allianz.example.model.ProductDTO;
-import com.allianz.example.model.SellerDTO;
+import com.allianz.example.model.requestDTO.PageDTO;
 import com.allianz.example.model.requestDTO.ProductRequestDTO;
 import com.allianz.example.util.BaseMapper;
-import com.allianz.example.util.PageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
@@ -25,13 +25,13 @@ public class ProductMapper implements BaseMapper<ProductDTO, ProductEntity, Prod
 
     private final TaxMapper taxMapper;
     private final CategoryMapper categoryMapper;
+
     @Autowired
     @Lazy
     public ProductMapper(TaxMapper taxMapper, CategoryMapper categoryMapper) {
         this.taxMapper = taxMapper;
         this.categoryMapper = categoryMapper;
     }
-
 
 
     @Override
@@ -45,12 +45,15 @@ public class ProductMapper implements BaseMapper<ProductDTO, ProductEntity, Prod
         productDTO.setQuantity(entity.getQuantity());
         productDTO.setCode(entity.getCode());
         productDTO.setColor(entity.getColor());
-        productDTO.setTax(taxMapper.entityToDTO(entity.getTax()));
+        if (entity.getTax() != null) {
+            productDTO.setTax(taxMapper.entityToDTO(entity.getTax()));
+        }
         productDTO.setBuyPrice(entity.getBuyPrice());
         productDTO.setSellPrice(entity.getSellPrice());
-        Set<CategoryDTO> categoryDTOS = new HashSet<>(categoryMapper.entityListToDTOList(new ArrayList<>(entity.getCategoryList())));
-        productDTO.setCategoryList(categoryDTOS);
-
+        if (entity.getCategoryList() != null) {
+            Set<CategoryDTO> categoryDTOS = new HashSet<>(categoryMapper.entityListToDTOList(new ArrayList<>(entity.getCategoryList())));
+            productDTO.setCategoryList(categoryDTOS);
+        }
 
         return productDTO;
 
@@ -68,19 +71,22 @@ public class ProductMapper implements BaseMapper<ProductDTO, ProductEntity, Prod
         product.setQuantity(dto.getQuantity());
         product.setCode(dto.getCode());
         product.setColor(dto.getColor());
-        product.setTax(taxMapper.dtoToEntity(dto.getTax()));
+        if (dto.getTax() != null) {
+            product.setTax(taxMapper.dtoToEntity(dto.getTax()));
+        }
         product.setBuyPrice(dto.getBuyPrice());
         product.setSellPrice(dto.getSellPrice());
-        Set<CategoryEntity> categoryDTOS = new HashSet<>(categoryMapper.dtoListTOEntityList(new ArrayList<>(dto.getCategoryList())));
-        product.setCategoryList(categoryDTOS);
-
+        if (dto.getCategoryList() != null) {
+            Set<CategoryEntity> categoryDTOS = new HashSet<>(categoryMapper.dtoListTOEntityList(new ArrayList<>(dto.getCategoryList())));
+            product.setCategoryList(categoryDTOS);
+        }
         return product;
     }
 
     @Override
     public List<ProductDTO> entityListToDTOList(List<ProductEntity> productEntities) {
         List<ProductDTO> dtos = new ArrayList<>();
-        for (ProductEntity entity: productEntities) {
+        for (ProductEntity entity : productEntities) {
             dtos.add(entityToDTO(entity));
         }
         return dtos;
@@ -89,7 +95,7 @@ public class ProductMapper implements BaseMapper<ProductDTO, ProductEntity, Prod
     @Override
     public List<ProductEntity> dtoListTOEntityList(List<ProductDTO> productDTOS) {
         List<ProductEntity> entities = new ArrayList<>();
-        for (ProductDTO dto: productDTOS) {
+        for (ProductDTO dto : productDTOS) {
             entities.add(dtoToEntity(dto));
         }
         return entities;
@@ -107,28 +113,52 @@ public class ProductMapper implements BaseMapper<ProductDTO, ProductEntity, Prod
         entity.setQuantity(dto.getQuantity());
         entity.setCode(dto.getCode());
         entity.setColor(dto.getColor());
-        entity.setTax(taxMapper.requestDTOToEntity(dto.getTax()));
+        if (dto.getTax() != null) {
+            entity.setTax(taxMapper.requestDTOToEntity(dto.getTax()));
+        }
         entity.setBuyPrice(dto.getBuyPrice());
         entity.setSellPrice(dto.getSellPrice());
-        Set<CategoryEntity> categoryDTOS = new HashSet<>(categoryMapper.requestDTOListTOEntityList(new ArrayList<>(dto.getCategoryList())));
-        entity.setCategoryList(categoryDTOS);
-
+        if (dto.getCategoryList() != null) {
+            Set<CategoryEntity> categoryDTOS = new HashSet<>(categoryMapper.requestDTOListTOEntityList(new ArrayList<>(dto.getCategoryList())));
+            entity.setCategoryList(categoryDTOS);
+        }
         return entity;
     }
 
     @Override
     public ProductEntity requestDTOToExistEntity(ProductRequestDTO dto, ProductEntity entity) {
-        return null;
+        entity.setUuid(dto.getUuid());
+        entity.setCreationDate(dto.getCreationDate());
+        entity.setId(dto.getId());
+        entity.setUpdatedDate(dto.getUpdatedDate());
+        entity.setName(dto.getName());
+        entity.setQuantity(dto.getQuantity());
+        entity.setCode(dto.getCode());
+        entity.setColor(dto.getColor());
+        if (dto.getTax() != null) {
+            entity.setTax(taxMapper.requestDTOToEntity(dto.getTax()));
+        }
+        entity.setBuyPrice(dto.getBuyPrice());
+        entity.setSellPrice(dto.getSellPrice());
+        if (dto.getCategoryList() != null) {
+            Set<CategoryEntity> categoryDTOS = new HashSet<>(categoryMapper.requestDTOListTOEntityList(new ArrayList<>(dto.getCategoryList())));
+            entity.setCategoryList(categoryDTOS);
+        }
+        return entity;
     }
 
     @Override
     public List<ProductEntity> requestDTOListTOEntityList(List<ProductRequestDTO> productRequestDTOS) {
-        return null;
+        List<ProductEntity> entities = new ArrayList<>();
+        for (ProductRequestDTO dto : productRequestDTOS) {
+            entities.add(requestDTOToEntity(dto));
+        }
+        return entities;
     }
 
     @Override
     public PageDTO<ProductDTO> pageEntityToPageDTO(Page<ProductEntity> entities) {
-        PageDTO<ProductDTO>  pageDTO = new PageDTO<>();
+        PageDTO<ProductDTO> pageDTO = new PageDTO<>();
         pageDTO.setTotalPages(entities.getTotalPages());
         pageDTO.setSize(entities.getSize());
         pageDTO.setContent(entityListToDTOList(entities.getContent()));
@@ -137,6 +167,6 @@ public class ProductMapper implements BaseMapper<ProductDTO, ProductEntity, Prod
         pageDTO.setNumberOfElement(entities.getNumberOfElements());
         pageDTO.setSort(entities.getSort());
 
-        return  pageDTO;
+        return pageDTO;
     }
 }

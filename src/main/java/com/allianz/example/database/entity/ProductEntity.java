@@ -14,7 +14,7 @@ import java.util.Set;
 @AttributeOverride(
         name = "uuid",
         column = @Column(
-                name = "address_uuid"
+                name = "product_uuid"
         )
 )
 @Data
@@ -40,8 +40,11 @@ public class ProductEntity extends BaseEntity {
     private Integer quantity;
 
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "productList")
-    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "category_product",
+            joinColumns = {@JoinColumn(name = "product_id")},
+            inverseJoinColumns = {@JoinColumn(name = "category_id")}
+    )
     private Set<CategoryEntity> categoryList;
 
 

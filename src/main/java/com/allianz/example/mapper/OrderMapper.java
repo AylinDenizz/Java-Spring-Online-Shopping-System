@@ -2,10 +2,10 @@ package com.allianz.example.mapper;
 
 import com.allianz.example.database.entity.OrderEntity;
 import com.allianz.example.model.OrderDTO;
-import com.allianz.example.model.ProductDTO;
+import com.allianz.example.model.OrderItemDTO;
 import com.allianz.example.model.requestDTO.OrderRequestDTO;
+import com.allianz.example.model.requestDTO.PageDTO;
 import com.allianz.example.util.BaseMapper;
-import com.allianz.example.util.PageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -109,13 +109,24 @@ public class OrderMapper implements BaseMapper<OrderDTO, OrderEntity, OrderReque
     }
 
     @Override
-    public OrderEntity requestDTOToExistEntity(OrderRequestDTO dto, OrderEntity entity) {
-        return null;
+    public OrderEntity requestDTOToExistEntity(OrderRequestDTO dto, OrderEntity order) {
+        order.setOrderStatus(dto.getOrderStatus());
+        order.setId(dto.getId());
+        order.setTotalSellPrice(dto.getTotalSellPrice());
+        order.setUuid(dto.getUuid());
+        order.setId(dto.getId());
+        order.setCreationDate(dto.getCreationDate());
+        order.setUpdatedDate(dto.getUpdatedDate());
+        order.setOrderStatus(dto.getOrderStatus());
+        order.setCustomer(customerMapper.requestDTOToEntity(dto.getCustomer()));
+        order.setOrderItemList(orderItemMapper.requestDTOListTOEntityList(dto.getOrderItemList()));
+        return order;
+
     }
 
     @Override
     public PageDTO<OrderDTO> pageEntityToPageDTO(Page<OrderEntity> entities) {
-        PageDTO<OrderDTO>  pageDTO = new PageDTO<>();
+        PageDTO<OrderDTO> pageDTO = new PageDTO<>();
         pageDTO.setTotalPages(entities.getTotalPages());
         pageDTO.setSize(entities.getSize());
         pageDTO.setContent(entityListToDTOList(entities.getContent()));

@@ -2,11 +2,11 @@ package com.allianz.example.mapper;
 
 import com.allianz.example.database.entity.BillEntity;
 import com.allianz.example.model.BillDTO;
-import com.allianz.example.model.ProductDTO;
+import com.allianz.example.model.OrderItemDTO;
 import com.allianz.example.model.requestDTO.BillRequestDTO;
 
+import com.allianz.example.model.requestDTO.PageDTO;
 import com.allianz.example.util.BaseMapper;
-import com.allianz.example.util.PageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -100,17 +100,32 @@ public class BillMapper implements BaseMapper<BillDTO, BillEntity, BillRequestDT
 
     @Override
     public List<BillEntity> requestDTOListTOEntityList(List<BillRequestDTO> billRequestDTOS) {
-        return null;
+        List<BillEntity> billEntityList = new ArrayList<>();
+        for (BillRequestDTO billDTO : billRequestDTOS) {
+            billEntityList.add(requestDTOToEntity(billDTO));
+        }
+        return billEntityList;
     }
 
     @Override
     public BillEntity requestDTOToExistEntity(BillRequestDTO dto, BillEntity entity) {
-        return null;
+        entity.setBillDate(dto.getBillDate());
+        entity.setBillNo(dto.getBillNo());
+        entity.setId(dto.getId());
+        entity.setTaxRate(dto.getTaxRate());
+        entity.setTaxAmount(dto.getTaxAmount());
+        entity.setUuid(dto.getUuid());
+        entity.setCreationDate(dto.getCreationDate());
+        entity.setUpdatedDate(dto.getUpdatedDate());
+        entity.setTotalSellNetPrice(dto.getTotalSellNetPrice());
+        entity.setTotalSellPrice(dto.getTotalSellPrice());
+        entity.setOrder(orderMapper.requestDTOToEntity(dto.getOrder()));
+        return entity;
     }
 
     @Override
     public PageDTO<BillDTO> pageEntityToPageDTO(Page<BillEntity> entities) {
-        PageDTO<BillDTO>  pageDTO = new PageDTO<>();
+        PageDTO<BillDTO> pageDTO = new PageDTO<>();
         pageDTO.setTotalPages(entities.getTotalPages());
         pageDTO.setSize(entities.getSize());
         pageDTO.setContent(entityListToDTOList(entities.getContent()));
