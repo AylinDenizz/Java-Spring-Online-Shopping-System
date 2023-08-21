@@ -3,6 +3,8 @@ package com.allianz.example.service;
 import com.allianz.example.database.entity.SettingEntity;
 import com.allianz.example.database.repository.SellerEntityRepository;
 import com.allianz.example.database.repository.SettingEntityRepository;
+import com.allianz.example.database.specification.AddressSpesification;
+import com.allianz.example.database.specification.SettingSpesification;
 import com.allianz.example.mapper.SettingMapper;
 import com.allianz.example.model.SettingDTO;
 import com.allianz.example.model.requestDTO.SettingRequestDTO;
@@ -17,13 +19,17 @@ import java.util.UUID;
 
 @Service
 @RestController
-public class SettingService extends BaseService<SettingDTO, SettingEntity, SettingRequestDTO, SettingEntityRepository, SettingMapper> {
+public class SettingService extends BaseService<SettingDTO, SettingEntity, SettingRequestDTO,
+        SettingEntityRepository, SettingMapper, SettingSpesification> {
 
     @Autowired
     SettingEntityRepository settingEntityRepository;
 
     @Autowired
     SettingMapper settingMapper;
+
+    @Autowired
+    SettingSpesification settingSpesification;
 
 
 
@@ -42,6 +48,11 @@ public class SettingService extends BaseService<SettingDTO, SettingEntity, Setti
     @Override
     protected SettingEntityRepository getRepository() {
         return settingEntityRepository;
+    }
+
+    @Override
+    protected SettingSpesification getSpecification() {
+        return settingSpesification;
     }
 
     public List<SettingDTO> getAll() {

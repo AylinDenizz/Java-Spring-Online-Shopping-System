@@ -3,6 +3,7 @@ package com.allianz.example.controller;
 import com.allianz.example.database.entity.SettingEntity;
 import com.allianz.example.database.repository.SettingEntityRepository;
 import com.allianz.example.database.repository.SettingEntityRepository;
+import com.allianz.example.database.specification.SettingSpesification;
 import com.allianz.example.mapper.SettingMapper;
 import com.allianz.example.mapper.SettingMapper;
 import com.allianz.example.model.SettingDTO;
@@ -23,7 +24,8 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("setting")
-public class SettingController extends BaseController<SettingEntity, SettingDTO, SettingRequestDTO, SettingEntityRepository, SettingMapper, SettingService> {
+public class SettingController extends BaseController<SettingEntity, SettingDTO, SettingRequestDTO,
+        SettingEntityRepository, SettingMapper, SettingSpesification, SettingService> {
     @Autowired
     SettingService settingService;
 

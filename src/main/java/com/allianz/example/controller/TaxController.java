@@ -2,6 +2,7 @@ package com.allianz.example.controller;
 
 import com.allianz.example.database.entity.TaxEntity;
 import com.allianz.example.database.repository.TaxEntityRepository;
+import com.allianz.example.database.specification.TaxSpesification;
 import com.allianz.example.mapper.TaxMapper;
 import com.allianz.example.model.TaxDTO;
 import com.allianz.example.model.requestDTO.TaxRequestDTO;
@@ -19,7 +20,8 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("taxes")
-public class TaxController extends BaseController<TaxEntity, TaxDTO, TaxRequestDTO,TaxEntityRepository, TaxMapper, TaxService> {
+public class TaxController extends BaseController<TaxEntity, TaxDTO, TaxRequestDTO,TaxEntityRepository,
+        TaxMapper, TaxSpesification, TaxService> {
 
     @Autowired
     TaxService taxService;

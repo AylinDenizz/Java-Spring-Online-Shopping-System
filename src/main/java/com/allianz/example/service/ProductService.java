@@ -5,6 +5,9 @@ import com.allianz.example.database.entity.ProductEntity;
 import com.allianz.example.database.entity.SellerEntity;
 import com.allianz.example.database.repository.ProductEntityRepository;
 import com.allianz.example.database.repository.SellerEntityRepository;
+import com.allianz.example.database.specification.AddressSpesification;
+import com.allianz.example.database.specification.ProductSpesification;
+import com.allianz.example.mapper.CategoryMapper;
 import com.allianz.example.mapper.ProductMapper;
 import com.allianz.example.mapper.SellerMapper;
 import com.allianz.example.model.CategoryDTO;
@@ -15,6 +18,7 @@ import com.allianz.example.model.requestDTO.ProductRequestDTO;
 import com.allianz.example.model.requestDTO.SellerRequestDTO;
 import com.allianz.example.util.BaseDTO;
 import com.allianz.example.util.BaseService;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,9 +27,22 @@ import java.util.*;
 
 @Service
 
-public class ProductService extends BaseService<ProductDTO, ProductEntity, ProductRequestDTO, ProductEntityRepository, ProductMapper> {
+public class ProductService extends BaseService<ProductDTO, ProductEntity, ProductRequestDTO,
+        ProductEntityRepository, ProductMapper, ProductSpesification> {
+    private final EntityManager entityManager;
+
+    public ProductService(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
     @Autowired
     ProductMapper productMapper;
+
+    @Autowired
+    ProductSpesification productSpesification;
+
+    @Autowired
+    CategoryMapper categoryMapper;
 
     @Autowired
     ProductEntityRepository productEntityRepository;
@@ -43,29 +60,45 @@ public class ProductService extends BaseService<ProductDTO, ProductEntity, Produ
         return productEntityRepository;
     }
 
+    @Override
+    protected ProductSpesification getSpecification() {
+        return productSpesification;
+    }
+
     @Transactional
     public ProductDTO saveWithCategory(ProductRequestDTO productRequestDTO) {
-        ProductDTO productDTO = productMapper.entityToDTO((productMapper.requestDTOToEntity(productRequestDTO)));
-        productRequestDTO.setCategoryList(null);
-        productRequestDTO.setTax(null);
-        if (productDTO.getCategoryList() != null) {
-            Set<CategoryDTO> categoryDTOSet = new HashSet<>(new ArrayList<>
-                    (productDTO.getCategoryList()));
-            Set<CategoryDTO> categoryDTOS = new HashSet<>();
-            for (CategoryDTO categoryDTO : categoryDTOSet) {
+        ProductEntity productEntity = productMapper.requestDTOToEntity(productRequestDTO);
+        Set<CategoryRequestDTO> categoryDTOSet = productRequestDTO.getCategoryList();
+        if (categoryDTOSet != null) {
+            Set<CategoryEntity> categoryEntitySet = new HashSet<>();
+            for (CategoryRequestDTO categoryDTO : categoryDTOSet) {
                 if (categoryDTO != null) {
-                    CategoryDTO category = categoryService.getByUuid(categoryDTO.getUuid());
-                    categoryDTOS.add(category);
+                    CategoryEntity categoryEntity = categoryMapper.dtoToEntity
+                            (categoryService.getByUuid(categoryDTO.getUuid()));
+                    categoryEntitySet.add(categoryEntity);
                 }
             }
-            productDTO.setCategoryList(categoryDTOS);
+            productEntity.setCategoryList(categoryEntitySet);
         } else {
-            Set<CategoryDTO> categoryDTOS = new HashSet<>();
-            productDTO.setCategoryList(categoryDTOS);
+            productEntity.setCategoryList(new HashSet<>());
         }
 
-        getRepository().save(productMapper.dtoToEntity(productDTO));
-        return productDTO;
+        ProductEntity savedProductEntity = productEntityRepository.save(productEntity);
+
+
+        return productMapper.entityToDTO(savedProductEntity);
+    }
+
+
+
+
+    @Transactional
+    public CategoryEntity saveWithMerge(CategoryEntity category) {
+        // Detached nesneyi merge işlemiyle tekrar yönetilen nesne haline getiriyoruz
+        CategoryEntity managedCategory = entityManager.merge(category);
+        // Yönetilen nesneyi kaydediyoruz
+        entityManager.persist(managedCategory);
+        return managedCategory;
     }
 }
 

@@ -24,6 +24,7 @@ public class CategoryEntity extends BaseEntity {
 
     @ManyToMany(mappedBy = "categoryList", cascade = CascadeType.ALL)
 
+
     private Set<ProductEntity> productList = new HashSet<>();
 
 

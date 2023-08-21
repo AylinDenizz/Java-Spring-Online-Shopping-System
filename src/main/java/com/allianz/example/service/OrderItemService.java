@@ -6,6 +6,8 @@ import com.allianz.example.database.entity.PersonEntity;
 import com.allianz.example.database.repository.OrderEntityRepository;
 import com.allianz.example.database.repository.OrderItemEntityRepository;
 import com.allianz.example.database.repository.PersonEntityRepository;
+import com.allianz.example.database.specification.AddressSpesification;
+import com.allianz.example.database.specification.OrderItemSpesification;
 import com.allianz.example.mapper.OrderItemMapper;
 import com.allianz.example.mapper.PersonMapper;
 import com.allianz.example.model.OrderItemDTO;
@@ -21,7 +23,7 @@ import java.util.UUID;
 @Service
 
 public class OrderItemService  extends BaseService<OrderItemDTO, OrderItemEntity, OrderItemRequestDTO,
-        OrderItemEntityRepository, OrderItemMapper> {
+        OrderItemEntityRepository, OrderItemMapper, OrderItemSpesification> {
     @Autowired
     OrderItemEntityRepository orderItemEntityRepository;
 
@@ -33,9 +35,17 @@ public class OrderItemService  extends BaseService<OrderItemDTO, OrderItemEntity
         return orderItemMapper;
     }
 
+    @Autowired
+    OrderItemSpesification orderItemSpesification;
+
     @Override
     protected OrderItemEntityRepository getRepository() {
         return orderItemEntityRepository;
+    }
+
+    @Override
+    protected OrderItemSpesification getSpecification() {
+        return orderItemSpesification;
     }
 
     public OrderItemDTO create(OrderItemDTO orderItemDTO) {

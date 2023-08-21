@@ -3,6 +3,7 @@ package com.allianz.example.util;
 import com.allianz.example.model.OrderItemDTO;
 import com.allianz.example.model.requestDTO.PageDTO;
 import com.allianz.example.util.dbutil.BaseEntity;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,8 @@ public abstract class BaseController<
         RequestDto extends BaseDTO,
         Repository extends BaseRepository<Entity>,
         Mapper extends BaseMapper<DTO, Entity, RequestDto>,
-        Service extends BaseService<DTO, Entity, RequestDto,Repository, Mapper >> {
+        Specification extends BaseSpecification<Entity>,
+        Service extends BaseService<DTO, Entity, RequestDto,Repository, Mapper, Specification>> {
 
     protected abstract Service getService();
 

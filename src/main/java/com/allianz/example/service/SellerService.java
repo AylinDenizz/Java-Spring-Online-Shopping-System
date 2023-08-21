@@ -2,6 +2,8 @@ package com.allianz.example.service;
 
 import com.allianz.example.database.entity.SellerEntity;
 import com.allianz.example.database.repository.SellerEntityRepository;
+import com.allianz.example.database.specification.AddressSpesification;
+import com.allianz.example.database.specification.SellerSpesification;
 import com.allianz.example.mapper.SellerMapper;
 import com.allianz.example.model.SellerDTO;
 import com.allianz.example.model.requestDTO.SellerRequestDTO;
@@ -13,7 +15,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class SellerService extends BaseService<SellerDTO, SellerEntity, SellerRequestDTO, SellerEntityRepository, SellerMapper> {
+public class SellerService extends BaseService<SellerDTO, SellerEntity, SellerRequestDTO,
+        SellerEntityRepository, SellerMapper, SellerSpesification> {
     @Autowired
     SellerEntityRepository sellerRepository;
     @Autowired
@@ -27,6 +30,14 @@ public class SellerService extends BaseService<SellerDTO, SellerEntity, SellerRe
     @Override
     protected SellerEntityRepository getRepository() {
         return sellerRepository;
+    }
+
+    @Autowired
+    SellerSpesification sellerSpesification;
+
+    @Override
+    protected SellerSpesification getSpecification() {
+        return sellerSpesification;
     }
 
 

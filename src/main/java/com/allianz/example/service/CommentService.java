@@ -5,6 +5,9 @@ import com.allianz.example.database.entity.CommentEntity;
 import com.allianz.example.database.entity.PersonEntity;
 import com.allianz.example.database.repository.CommentEntityRepository;
 import com.allianz.example.database.repository.PersonEntityRepository;
+import com.allianz.example.database.specification.AddressSpesification;
+import com.allianz.example.database.specification.CategorySpesification;
+import com.allianz.example.database.specification.CommentSpesification;
 import com.allianz.example.mapper.CommentMapper;
 
 import com.allianz.example.mapper.PersonMapper;
@@ -21,7 +24,7 @@ import java.util.UUID;
 @Service
 
 public class CommentService extends BaseService<CommentDTO, CommentEntity, CommentRequestDTO,
-        CommentEntityRepository, CommentMapper> {
+        CommentEntityRepository, CommentMapper, CommentSpesification> {
     @Autowired
     CommentEntityRepository commentEntityRepository;
 
@@ -33,9 +36,17 @@ public class CommentService extends BaseService<CommentDTO, CommentEntity, Comme
         return commentMapper;
     }
 
+    @Autowired
+    CommentSpesification commentSpesification;
+
     @Override
     protected CommentEntityRepository getRepository() {
         return commentEntityRepository;
+    }
+
+    @Override
+    protected CommentSpesification getSpecification() {
+        return commentSpesification;
     }
 
     public CommentDTO create(CommentDTO categoryDTO) {

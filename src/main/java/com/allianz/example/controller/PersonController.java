@@ -4,6 +4,7 @@ import com.allianz.example.database.entity.PersonEntity;
 import com.allianz.example.database.entity.TaxEntity;
 import com.allianz.example.database.repository.PersonEntityRepository;
 import com.allianz.example.database.repository.TaxEntityRepository;
+import com.allianz.example.database.specification.PersonSpesification;
 import com.allianz.example.mapper.PersonMapper;
 import com.allianz.example.mapper.TaxMapper;
 import com.allianz.example.model.PersonDTO;
@@ -25,7 +26,8 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("PersonDTO")
-public class PersonController extends BaseController<PersonEntity, PersonDTO, PersonRequestDTO, PersonEntityRepository, PersonMapper, PersonService> {
+public class PersonController extends BaseController<PersonEntity, PersonDTO, PersonRequestDTO,
+        PersonEntityRepository, PersonMapper, PersonSpesification, PersonService> {
 
 
     //endpoint->son nokta-bitis noktası

@@ -4,6 +4,8 @@ import com.allianz.example.database.entity.PersonEntity;
 import com.allianz.example.database.entity.ProductEntity;
 import com.allianz.example.database.repository.PersonEntityRepository;
 import com.allianz.example.database.repository.ProductEntityRepository;
+import com.allianz.example.database.specification.AddressSpesification;
+import com.allianz.example.database.specification.PersonSpesification;
 import com.allianz.example.mapper.PersonMapper;
 import com.allianz.example.mapper.ProductMapper;
 import com.allianz.example.model.PersonDTO;
@@ -23,7 +25,8 @@ import java.util.UUID;
 
 //bean
 @Service
-public class PersonService extends BaseService<PersonDTO, PersonEntity,PersonRequestDTO, PersonEntityRepository, PersonMapper> {
+public class PersonService extends BaseService<PersonDTO, PersonEntity,PersonRequestDTO,
+        PersonEntityRepository, PersonMapper, PersonSpesification> {
 
 
     @Autowired
@@ -31,6 +34,9 @@ public class PersonService extends BaseService<PersonDTO, PersonEntity,PersonReq
 
     @Autowired
     PersonMapper personMapper;
+
+    @Autowired
+    PersonSpesification personSpesification;
 
     @Override
     protected PersonMapper getMapper() {
@@ -40,6 +46,11 @@ public class PersonService extends BaseService<PersonDTO, PersonEntity,PersonReq
     @Override
     protected PersonEntityRepository getRepository() {
         return personEntityRepository;
+    }
+
+    @Override
+    protected PersonSpesification getSpecification() {
+        return personSpesification;
     }
 
 

@@ -5,6 +5,8 @@ import com.allianz.example.database.entity.CustomerEntity;
 import com.allianz.example.database.entity.PersonEntity;
 import com.allianz.example.database.repository.CustomerEntityRepository;
 import com.allianz.example.database.repository.PersonEntityRepository;
+import com.allianz.example.database.specification.AddressSpesification;
+import com.allianz.example.database.specification.CustomerSpesification;
 import com.allianz.example.mapper.CustomerMapper;
 import com.allianz.example.mapper.PersonMapper;
 import com.allianz.example.model.CustomerDTO;
@@ -20,7 +22,8 @@ import java.util.List;
 import java.util.UUID;
 @Service
 
-public class CustomerService extends BaseService<CustomerDTO, CustomerEntity, CustomerRequestDTO, CustomerEntityRepository, CustomerMapper> {
+public class CustomerService extends BaseService<CustomerDTO, CustomerEntity, CustomerRequestDTO,
+        CustomerEntityRepository, CustomerMapper, CustomerSpesification> {
     @Autowired
     CustomerEntityRepository customerEntityRepository;
 
@@ -32,9 +35,17 @@ public class CustomerService extends BaseService<CustomerDTO, CustomerEntity, Cu
         return customerMapper;
     }
 
+    @Autowired
+    CustomerSpesification customerSpesification;
+
     @Override
     protected CustomerEntityRepository getRepository() {
         return customerEntityRepository;
+    }
+
+    @Override
+    protected CustomerSpesification getSpecification() {
+        return customerSpesification;
     }
 
     public CustomerDTO create(CustomerDTO customerDTO) {

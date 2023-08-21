@@ -4,6 +4,8 @@ import com.allianz.example.database.entity.AddressEntity;
 import com.allianz.example.database.entity.PersonEntity;
 import com.allianz.example.database.repository.AddressEntityRepository;
 import com.allianz.example.database.repository.PersonEntityRepository;
+import com.allianz.example.database.specification.AddressSpesification;
+import com.allianz.example.database.specification.OrderSpesification;
 import com.allianz.example.mapper.AddressMapper;
 import com.allianz.example.mapper.PersonMapper;
 import com.allianz.example.model.AddressDTO;
@@ -19,13 +21,17 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class AddressService  extends BaseService<AddressDTO, AddressEntity, AddressRequestDTO, AddressEntityRepository, AddressMapper> {
+public class AddressService  extends BaseService<AddressDTO, AddressEntity, AddressRequestDTO, AddressEntityRepository,
+        AddressMapper, AddressSpesification> {
 
     @Autowired
     AddressEntityRepository addressEntityRepository;
 
     @Autowired
     AddressMapper addressMapper;
+
+    @Autowired
+    AddressSpesification addressSpesification;
 
     @Override
     protected AddressMapper getMapper() {
@@ -35,6 +41,11 @@ public class AddressService  extends BaseService<AddressDTO, AddressEntity, Addr
     @Override
     protected AddressEntityRepository getRepository() {
         return addressEntityRepository;
+    }
+
+    @Override
+    protected AddressSpesification getSpecification() {
+        return addressSpesification;
     }
 
 

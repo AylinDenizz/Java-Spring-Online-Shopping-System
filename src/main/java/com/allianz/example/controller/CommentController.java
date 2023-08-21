@@ -2,6 +2,7 @@ package com.allianz.example.controller;
 
 import com.allianz.example.database.entity.CommentEntity;
 import com.allianz.example.database.repository.CommentEntityRepository;
+import com.allianz.example.database.specification.CommentSpesification;
 import com.allianz.example.mapper.CommentMapper;
 import com.allianz.example.model.CommentDTO;
 import com.allianz.example.model.requestDTO.CommentRequestDTO;
@@ -14,7 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("CommentDTO")
-public class CommentController extends BaseController<CommentEntity, CommentDTO, CommentRequestDTO, CommentEntityRepository, CommentMapper, CommentService> {
+public class CommentController extends BaseController<CommentEntity, CommentDTO, CommentRequestDTO,
+        CommentEntityRepository, CommentMapper, CommentSpesification, CommentService> {
 
 
 

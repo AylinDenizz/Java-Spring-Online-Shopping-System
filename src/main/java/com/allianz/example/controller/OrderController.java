@@ -2,6 +2,7 @@ package com.allianz.example.controller;
 
 import com.allianz.example.database.entity.OrderEntity;
 import com.allianz.example.database.repository.OrderEntityRepository;
+import com.allianz.example.database.specification.OrderSpesification;
 import com.allianz.example.mapper.OrderMapper;
 import com.allianz.example.model.OrderDTO;
 import com.allianz.example.model.requestDTO.OrderRequestDTO;
@@ -14,7 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("OrderDTO")
-public class OrderController extends BaseController<OrderEntity, OrderDTO, OrderRequestDTO, OrderEntityRepository, OrderMapper, OrderService> {
+public class OrderController extends BaseController<OrderEntity, OrderDTO, OrderRequestDTO,
+        OrderEntityRepository, OrderMapper, OrderSpesification, OrderService> {
 
     @Autowired
     OrderService OrderService;

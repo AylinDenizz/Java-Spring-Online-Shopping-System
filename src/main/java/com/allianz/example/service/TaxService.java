@@ -2,6 +2,8 @@ package com.allianz.example.service;
 
 import com.allianz.example.database.entity.TaxEntity;
 import com.allianz.example.database.repository.TaxEntityRepository;
+import com.allianz.example.database.specification.AddressSpesification;
+import com.allianz.example.database.specification.TaxSpesification;
 import com.allianz.example.mapper.TaxMapper;
 import com.allianz.example.model.TaxDTO;
 import com.allianz.example.model.requestDTO.TaxRequestDTO;
@@ -15,12 +17,16 @@ import java.util.Optional;
 import java.util.UUID;
 @Service
 @RestController
-public class TaxService extends BaseService<TaxDTO, TaxEntity, TaxRequestDTO, TaxEntityRepository, TaxMapper> {
+public class TaxService extends BaseService<TaxDTO, TaxEntity, TaxRequestDTO, TaxEntityRepository, TaxMapper,
+        TaxSpesification> {
     @Autowired
     TaxEntityRepository taxEntityRepository;
 
     @Autowired
     TaxMapper taxMapper;
+
+    @Autowired
+    TaxSpesification taxSpesification;
 
     @Override
     protected TaxMapper getMapper() {
@@ -30,6 +36,11 @@ public class TaxService extends BaseService<TaxDTO, TaxEntity, TaxRequestDTO, Ta
     @Override
     protected TaxEntityRepository getRepository() {
        return taxEntityRepository;
+    }
+
+    @Override
+    protected TaxSpesification getSpecification() {
+        return taxSpesification;
     }
 
     @Override

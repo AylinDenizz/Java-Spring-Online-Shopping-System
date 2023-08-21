@@ -19,11 +19,13 @@ public abstract class BaseService<
         Entity extends BaseEntity,
         RequestDTO extends BaseDTO,
         Repository extends BaseRepository<Entity>,
-        Mapper extends BaseMapper<DTO, Entity, RequestDTO>> {
+        Mapper extends BaseMapper<DTO, Entity, RequestDTO>,
+        Specification extends BaseSpecification<Entity>> {
 
     protected abstract Mapper getMapper();
 
     protected abstract Repository getRepository();
+    protected abstract Specification getSpecification();
 
 
     public DTO save(RequestDTO dto) {
@@ -69,7 +71,9 @@ public abstract class BaseService<
                 pageable = PageRequest.of(baseFilterRequestDTO.getPageNumber(), baseFilterRequestDTO.getPageSize(),
                         Sort.by("id").ascending());
             }
-            Page<Entity> entityPage = getRepository().findAll(pageable);
+            getSpecification().setCriteriaList(baseFilterRequestDTO.getFilters());
+
+            Page<Entity> entityPage = getRepository().findAll(getSpecification(),pageable);
             return getMapper().pageEntityToPageDTO(entityPage);
         }
 

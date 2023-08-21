@@ -1,6 +1,7 @@
 package com.allianz.example.controller;
 import com.allianz.example.database.entity.AddressEntity;
 import com.allianz.example.database.repository.AddressEntityRepository;
+import com.allianz.example.database.specification.AddressSpesification;
 import com.allianz.example.mapper.AddressMapper;
 import com.allianz.example.model.AddressDTO;
 import com.allianz.example.model.requestDTO.AddressRequestDTO;
@@ -13,7 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("AddressDTO")
-public class AddressController extends BaseController<AddressEntity, AddressDTO, AddressRequestDTO, AddressEntityRepository, AddressMapper, AddressService> {
+public class AddressController extends BaseController<AddressEntity, AddressDTO, AddressRequestDTO,
+        AddressEntityRepository, AddressMapper, AddressSpesification, AddressService> {
 
 
     @Autowired

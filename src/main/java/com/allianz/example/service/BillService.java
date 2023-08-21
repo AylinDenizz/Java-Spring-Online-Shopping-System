@@ -4,6 +4,9 @@ import com.allianz.example.database.entity.BillEntity;
 import com.allianz.example.database.entity.PersonEntity;
 import com.allianz.example.database.repository.BillEntityRepository;
 import com.allianz.example.database.repository.PersonEntityRepository;
+import com.allianz.example.database.specification.AddressSpesification;
+import com.allianz.example.database.specification.BillSpesification;
+import com.allianz.example.database.specification.PersonSpesification;
 import com.allianz.example.mapper.BillMapper;
 
 import com.allianz.example.mapper.PersonMapper;
@@ -19,12 +22,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 @Service
-public class BillService extends BaseService<BillDTO, BillEntity, BillRequestDTO, BillEntityRepository, BillMapper> {
+public class BillService extends BaseService<BillDTO, BillEntity, BillRequestDTO, BillEntityRepository,
+        BillMapper, BillSpesification> {
     @Autowired
     BillEntityRepository billEntityRepository;
 
     @Autowired
     BillMapper billMapper;
+
+    @Autowired
+    BillSpesification billSpesification;
 
     @Override
     protected BillMapper getMapper() {
@@ -35,5 +42,11 @@ public class BillService extends BaseService<BillDTO, BillEntity, BillRequestDTO
     protected BillEntityRepository getRepository() {
         return billEntityRepository;
     }
+
+    @Override
+    protected BillSpesification getSpecification() {
+        return billSpesification;
+    }
+
 
 }

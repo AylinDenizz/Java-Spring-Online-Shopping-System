@@ -4,6 +4,7 @@ import com.allianz.example.database.entity.ProductEntity;
 import com.allianz.example.database.entity.TaxEntity;
 import com.allianz.example.database.repository.ProductEntityRepository;
 import com.allianz.example.database.repository.TaxEntityRepository;
+import com.allianz.example.database.specification.ProductSpesification;
 import com.allianz.example.mapper.ProductMapper;
 import com.allianz.example.mapper.TaxMapper;
 import com.allianz.example.model.ProductDTO;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("product")
 public class ProductController extends BaseController<ProductEntity, ProductDTO, ProductRequestDTO,
-        ProductEntityRepository, ProductMapper, ProductService> {
+        ProductEntityRepository, ProductMapper, ProductSpesification, ProductService> {
 
     @Autowired
     ProductService productService;

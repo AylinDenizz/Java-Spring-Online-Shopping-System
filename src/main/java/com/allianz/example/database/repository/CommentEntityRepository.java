@@ -1,6 +1,9 @@
 package com.allianz.example.database.repository;
 
+
 import com.allianz.example.database.entity.CommentEntity;
+import com.allianz.example.database.entity.CustomerEntity;
+
 import com.allianz.example.database.entity.PersonEntity;
 import com.allianz.example.util.BaseRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
