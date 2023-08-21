@@ -1,17 +1,11 @@
 package com.allianz.example.util;
-
-
-import com.allianz.example.model.TaxDTO;
 import com.allianz.example.model.requestDTO.PageDTO;
 import com.allianz.example.util.dbutil.BaseEntity;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-
-import java.util.List;
 import java.util.UUID;
 
 public abstract class BaseService<
@@ -20,86 +14,72 @@ public abstract class BaseService<
         RequestDTO extends BaseDTO,
         Repository extends BaseRepository<Entity>,
         Mapper extends BaseMapper<DTO, Entity, RequestDTO>,
-        Specification extends BaseSpecification<Entity>> {
+        Specification extends BaseSpecification<Entity>
+        > {
 
     protected abstract Mapper getMapper();
 
     protected abstract Repository getRepository();
+
+
     protected abstract Specification getSpecification();
 
-
-    public DTO save(RequestDTO dto) {
-        Entity entity = getMapper().requestDTOToEntity(dto);
+    public DTO save(RequestDTO requestDTO) {
+        Entity entity = getMapper().requestDTOToEntity(requestDTO);
         getRepository().save(entity);
         return getMapper().entityToDTO(entity);
     }
 
-       /* //Pageable pageable = PageRequest.of(1,10,Sort.by("id").descending());
-
-        Pageable pageable = null;
-        if (dto != null) {
-
-            if(dto.getSortDTO().getDirection().equals(Sort.Direction.ASC)) {
-                pageable = PageRequest.of(dto.getPageNumber(),dto.getPageSize(), Sort.by(dto.getSortDTO().
-                        getColoumnName()).ascending());
+    public PageDTO<DTO> getAll(BaseFilterRequestDTO baseFilterRequestDTO) {
+        Pageable pageable;
+        if (baseFilterRequestDTO.getSortDTO() != null) {
+            if (baseFilterRequestDTO.getSortDTO().getDirection() == Sort.Direction.ASC) {
+                pageable = PageRequest.of(baseFilterRequestDTO.getPageNumber(),baseFilterRequestDTO.getPageSize(),
+                        Sort.by(baseFilterRequestDTO.getSortDTO().getColoumnName()).ascending());
             } else {
-                pageable = PageRequest.of(dto.getPageNumber(),dto.getPageSize(), Sort.by(dto.getSortDTO().
-                        getColoumnName()).descending());
+                pageable = PageRequest.of(baseFilterRequestDTO.getPageNumber(),baseFilterRequestDTO.getPageSize(),
+                        Sort.by(baseFilterRequestDTO.getSortDTO().getColoumnName()).descending());
             }
         } else {
-            pageable = PageRequest.of(dto.getPageNumber(),dto.getPageSize(), Sort.by("id")
-                    .ascending());
+            pageable = PageRequest.of(baseFilterRequestDTO.getPageNumber(),baseFilterRequestDTO.getPageSize(),
+                    Sort.by("id").ascending());
         }
-        Page<Entity> entityPage = getRepository().findAll(pageable);
+
+        getSpecification().setCriteriaList(baseFilterRequestDTO.getFilters());
+
+        Page<Entity> entityPage = getRepository().findAll(getSpecification(),pageable);
         return getMapper().pageEntityToPageDTO(entityPage);
     }
-*/
-
-        public PageDTO<DTO> getAll(BaseFilterRequestDTO baseFilterRequestDTO) {
-            Pageable pageable = null;
-            if (baseFilterRequestDTO.getSortDTO() != null) {
-                if (baseFilterRequestDTO.getSortDTO().getDirection() == Sort.Direction.DESC) {
-                    pageable = PageRequest.of(baseFilterRequestDTO.getPageNumber(),
-                            baseFilterRequestDTO.getPageSize(),
-                            Sort.by(baseFilterRequestDTO.getSortDTO().getColoumnName()).descending());
-                } else {
-                    pageable = PageRequest.of(baseFilterRequestDTO.getPageNumber(),
-                            baseFilterRequestDTO.getPageSize(),
-                            Sort.by(baseFilterRequestDTO.getSortDTO().getColoumnName()).ascending());
-                }
-            } else {
-                pageable = PageRequest.of(baseFilterRequestDTO.getPageNumber(), baseFilterRequestDTO.getPageSize(),
-                        Sort.by("id").ascending());
-            }
-            getSpecification().setCriteriaList(baseFilterRequestDTO.getFilters());
-
-            Page<Entity> entityPage = getRepository().findAll(getSpecification(),pageable);
-            return getMapper().pageEntityToPageDTO(entityPage);
-        }
 
     public DTO update(UUID uuid, RequestDTO requestDTO) {
         Entity entity = getRepository().findByUuid(uuid).orElse(null);
-        if (entity == null) {
+        if (entity != null) {
+            entity = getMapper().requestDTOToExistEntity(requestDTO, entity);
+            getRepository().save(entity);
+            return getMapper().entityToDTO(entity);
+        } else {
             return null;
         }
-        return getMapper().entityToDTO(getRepository().save(getMapper().requestDTOToExistEntity(requestDTO, entity)));
-    }
-
-
-    public Boolean deleteByUuid(UUID uuid) {
-        Entity entity = getRepository().findByUuid(uuid).orElse(null);
-        if (entity == null) {
-            return false;
-        }
-        getRepository().delete(entity);
-        return true;
     }
 
     public DTO getByUuid(UUID uuid) {
         Entity entity = getRepository().findByUuid(uuid).orElse(null);
-        if (entity == null) {
+        if (entity != null) {
+            return getMapper().entityToDTO(entity);
+        } else {
             return null;
         }
-        return getMapper().entityToDTO(entity);
     }
+
+    public Boolean deleteByUuid(UUID uuid) {
+        Entity entity = getRepository().findByUuid(uuid).orElse(null);
+        if (entity != null) {
+            getRepository().delete(entity);
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
+    }
+
+
 }

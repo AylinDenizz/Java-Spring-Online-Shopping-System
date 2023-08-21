@@ -16,17 +16,21 @@ import java.util.Optional;
 
 @Service
 public class SecurityService implements UserDetailsService {
+
+
     @Autowired
     UserEntityRepository userEntityRepository;
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<UserEntity> user = userEntityRepository.findByEmail(email);
 
-        if (user.isEmpty()){
-            throw new UsernameNotFoundException("Could not findUser with email :" + email);
+        if (user.isEmpty()) {
+            throw new UsernameNotFoundException("Could not findUser with email =" + email);
         }
+
         return new User(email,
                 user.get().getPassword(),
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_user")));
     }
 }

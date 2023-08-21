@@ -9,9 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
 @Service
 public class UserService {
@@ -24,12 +22,11 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
 
-
     public void saveUserByRole(UserEntity user) {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         Set<RoleEntity> roles = new HashSet<>();
-        roles.add(roleRepository.findByName("USER").get());
+        roles.add(roleRepository.findByName("user").get());
         user.setRoles(roles);
         userRepository.save(user);
     }

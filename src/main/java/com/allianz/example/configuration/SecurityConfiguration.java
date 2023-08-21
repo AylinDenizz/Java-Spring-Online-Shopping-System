@@ -1,5 +1,6 @@
 package com.allianz.example.configuration;
 
+
 import com.allianz.example.database.repository.UserEntityRepository;
 import com.allianz.example.util.security.JWTFilter;
 import com.allianz.example.util.security.SecurityService;
@@ -37,7 +38,6 @@ public class SecurityConfiguration {
     private SecurityService uds;
 
 
-
     private static final String[] AUTH_WHITELIST = {
             "/auth/**",
             "/swagger-ui/**",
@@ -46,15 +46,24 @@ public class SecurityConfiguration {
             "/swagger-ui.html",
             "/webjars/**",
             "/v3/api-docs/**",
-            "/api/public/*",
+            "/api/public/**",
             "/api/public/authenticate",
             "/actuator/*",
-            "/swagger-ui/*",
-            "/swagger-ui/auth/*"
+            "/swagger-ui/**",
+            "/tax",
+            "/tax/**",
+            "/category/**",
+            "/category",
+            "/product/**",
+            "/product"
+
     };
 
-    
 
+    private static final String[] USER_AUTH_WHITELIST = {
+            "/selam"
+
+    };
 
 
     @Bean
@@ -74,8 +83,7 @@ public class SecurityConfiguration {
                 }).and()
                 .authorizeHttpRequests()
                 .requestMatchers(AUTH_WHITELIST).permitAll()
-
-
+                .requestMatchers(USER_AUTH_WHITELIST).hasRole("user")
                 .and()
 
                 .userDetailsService(uds)

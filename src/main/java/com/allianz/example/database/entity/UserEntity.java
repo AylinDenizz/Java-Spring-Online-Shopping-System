@@ -49,7 +49,4 @@ public class UserEntity extends BaseEntity {
                 isEnable = false;
         }
 
-        {
-
-        }
 }
