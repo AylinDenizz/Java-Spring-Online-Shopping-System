@@ -50,18 +50,19 @@ public class SecurityConfiguration {
             "/api/public/authenticate",
             "/actuator/*",
             "/swagger-ui/**",
-            "/tax",
-            "/tax/**",
+
+            "/product/**",
+            "/product",
             "/category/**",
             "/category",
-            "/product/**",
-            "/product"
+
 
     };
 
 
     private static final String[] USER_AUTH_WHITELIST = {
-            "/selam"
+            "/taxes",
+            "/taxes/**",
 
     };
 
